@@ -4,7 +4,8 @@ import {
   constructQueryUrl,
   generateRandomImage,
   urlParser,
-  setParams
+  setParams,
+  API_URL
 } from './utils'
 import { QueryParams, QueryParam } from '../misc/type'
 
@@ -76,7 +77,7 @@ test('url parser', () => {
   expect(
     stringify(
       urlParser(
-        'https://api.escuelajs.co/api/v1/products/?price_min=100&price_max=1000&offset=10&limit=10'
+        `${API_URL}/products/?price_min=100&price_max=1000&offset=10&limit=10`
       )
     )
   ).toBe(

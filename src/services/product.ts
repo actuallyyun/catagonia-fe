@@ -6,11 +6,11 @@ import {
   QueryParams,
   CreateProductRequest
 } from '../misc/type'
-import { constructQueryUrl } from '../misc/utils'
+import { API_URL, constructQueryUrl } from '../misc/utils'
 
 const productApi = createApi({
   reducerPath: 'productApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.escuelajs.co/api/v1' }),
+  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   tagTypes: ['Products', 'Product', 'Category'],
   endpoints: (builder) => ({
     getAllProducts: builder.query<Product[], QueryParams | null>({

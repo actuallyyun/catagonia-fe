@@ -70,3 +70,6 @@ export const setParams = (
     return [...prev, param]
   }
 }
+
+
+export const API_URL = 'http://localhost:5233/api/v1/'

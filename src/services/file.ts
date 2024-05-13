@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import { FileResponse } from '../misc/type'
+import { API_URL } from '../misc/utils'
 
 const fileApi = createApi({
   reducerPath: 'fileApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'https://api.escuelajs.co/api/v1'
+    baseUrl: API_URL
   }),
   endpoints: (builder) => ({
     uploadFile: builder.mutation<FileResponse, File>({

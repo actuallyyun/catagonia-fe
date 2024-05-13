@@ -10,7 +10,7 @@ import {
   QueryParams,
   UpdateProductRequest
 } from '../misc/type'
-import { urlParser } from '../misc/utils'
+import { API_URL, urlParser } from '../misc/utils'
 
 export const mockAuthToken: UserAuthToken = {
   access_token: 'access',
@@ -208,47 +208,42 @@ export const mockCategories = [
 ]
 
 export const handler = [
-  http.get(
-    'https://api.escuelajs.co/api/v1/products',
-    ({ request, params }) => {
-      const url = request.url
-      if (
-        url.includes('title') &&
-        url.includes('offset') &&
-        url.includes('limit')
-      ) {
-        const title = urlParser(url)['title'].toLowerCase()
-        const offset = Number(urlParser(url)['offset'])
-        const limit = Number(urlParser(url)['limit'])
-        const begin = offset * limit
-        const end = begin + limit
-        const res = mockProductsPaged
-          .filter((p) => p.title.toLowerCase().includes(title))
-          .slice(begin, end)
-        return HttpResponse.json(res)
-      }
-      if (url.includes('title')) {
-        const title = urlParser(url)['title'].toLowerCase()
-        return HttpResponse.json(
-          mockProductsPaged.filter((p) => p.title.toLowerCase().includes(title))
-        )
-      }
-      if (url.includes('offset') && url.includes('limit')) {
-        const offset = parseInt(urlParser(url)['offset'])
-        const limit = parseInt(urlParser(url)['limit'])
-
-        const begin = offset * limit
-        const end = begin + limit
-        const res = mockProductsPaged.slice(begin, end)
-        return HttpResponse.json(res)
-      }
-
-      return HttpResponse.json(mockProductsPaged, { status: 200 })
+  http.get(`${API_URL}/products`, ({ request, params }) => {
+    const url = request.url
+    if (
+      url.includes('title') &&
+      url.includes('offset') &&
+      url.includes('limit')
+    ) {
+      const title = urlParser(url)['title'].toLowerCase()
+      const offset = Number(urlParser(url)['offset'])
+      const limit = Number(urlParser(url)['limit'])
+      const begin = offset * limit
+      const end = begin + limit
+      const res = mockProductsPaged
+        .filter((p) => p.title.toLowerCase().includes(title))
+        .slice(begin, end)
+      return HttpResponse.json(res)
     }
-  ),
-  http.put(
-    'https://api.escuelajs.co/api/v1/products/:id',
-    async ({ request, params }) => {
+    if (url.includes('title')) {
+      const title = urlParser(url)['title'].toLowerCase()
+      return HttpResponse.json(
+        mockProductsPaged.filter((p) => p.title.toLowerCase().includes(title))
+      )
+    }
+    if (url.includes('offset') && url.includes('limit')) {
+      const offset = parseInt(urlParser(url)['offset'])
+      const limit = parseInt(urlParser(url)['limit'])
+
+      const begin = offset * limit
+      const end = begin + limit
+      const res = mockProductsPaged.slice(begin, end)
+      return HttpResponse.json(res)
+    }
+
+    return HttpResponse.json(mockProductsPaged, { status: 200 })
+  }),
+    http.put(`${API_URL}/products/:id`, async ({ request, params }) => {
       const id = Number(params.id)
       const body = (await request.json()) as UpdateProductRequest
       const index = mockProducts.findIndex((_p) => _p.id === id)
@@ -263,11 +258,8 @@ export const handler = [
       } else {
         return HttpResponse.json(null, { status: 404 })
       }
-    }
-  ),
-  http.delete(
-    'https://api.escuelajs.co/api/v1/products/:id',
-    ({ request, params }) => {
+    }),
+    http.delete(`${API_URL}/products/:id`, ({ request, params }) => {
       const id = Number(params.id)
       const index = mockProducts.findIndex((_p) => _p.id === id)
       if (index !== -1) {
@@ -276,31 +268,22 @@ export const handler = [
       } else {
         return new HttpResponse(null, { status: 404 })
       }
-    }
-  ),
-  http.post(
-    'https://api.escuelajs.co/api/v1/products',
-    async ({ request, params }) => {
+    }),
+    http.post(`${API_URL}/products`, async ({ request, params }) => {
       const body = await request.json()
       return HttpResponse.json(body)
-    }
-  ),
-  http.get('https://api.escuelajs.co/api/v1/categories', () => {
-    return HttpResponse.json(mockCategories)
+    }),
+    http.get(`${API_URL}/categories`, () => {
+      return HttpResponse.json(mockCategories)
+    }),
+  http.get(`${API_URL}/categories/:id/products`, ({ request, params }) => {
+    const id = Number(params.id)
+    const filteredProducts = mockProductsPaged.filter(
+      (p) => p.category.id === id
+    )
+    return HttpResponse.json(filteredProducts)
   }),
-  http.get(
-    'https://api.escuelajs.co/api/v1/categories/:id/products',
-    ({ request, params }) => {
-      const id = Number(params.id)
-      const filteredProducts = mockProductsPaged.filter(
-        (p) => p.category.id === id
-      )
-      return HttpResponse.json(filteredProducts)
-    }
-  ),
-  http.get(
-    'https://api.escuelajs.co/api/v1/products/:id',
-    ({ request, params }) => {
+    http.get(`${API_URL}/products/:id`, ({ request, params }) => {
       const productId = Number(params.id)
       if (productId) {
         const product = mockProducts.find((_p) => _p.id === productId)
@@ -308,11 +291,8 @@ export const handler = [
       } else {
         return new HttpResponse(null, { status: 404 })
       }
-    }
-  ),
-  http.post(
-    'https://api.escuelajs.co/api/v1/auth/login',
-    async ({ request }) => {
+    }),
+    http.post(`${API_URL}/auth/login`, async ({ request }) => {
       const userReq = (await request.json()) as UserLoginRequest | null
       if (!userReq) {
         return new HttpResponse(null, { status: 400 })
@@ -324,48 +304,29 @@ export const handler = [
         return HttpResponse.json(mockAuthToken, { status: 200 })
       }
       return new HttpResponse(null, { status: 400 })
-    }
-  ),
-  http.get('https://api.escuelajs.co/api/v1/auth/profile', ({ request }) => {
-    if (!request.headers.has('Authorization')) {
-      throw new HttpResponse(null, { status: 400 })
-    } else {
-      if (request.headers.get('Authorization') === 'Bearer access') {
-        return HttpResponse.json(mockUserRes, { status: 200 })
-      } else {
-        throw new HttpResponse(null, { status: 400 })
-      }
-    }
-  }),
-  http.post(
-    'https://api.escuelajs.co/api/v1/auth/refresh-token',
-    async ({ request }) => {
-      const token = (await request.json()) as { refreshToken: string } | null
-      if (!token) {
+    }),
+    http.get(`${API_URL}/auth/profile`, ({ request }) => {
+      if (!request.headers.has('Authorization')) {
         throw new HttpResponse(null, { status: 400 })
       } else {
-        if (token['refreshToken'] === 'refresh') {
-          return HttpResponse.json(mockRefreshedAuthToken)
+        if (request.headers.get('Authorization') === 'Bearer access') {
+          return HttpResponse.json(mockUserRes, { status: 200 })
+        } else {
+          throw new HttpResponse(null, { status: 400 })
         }
       }
-      return new HttpResponse(null, { status: 400 })
+    }),
+  http.post(`${API_URL}/auth/refresh-token`, async ({ request }) => {
+    const token = (await request.json()) as { refreshToken: string } | null
+    if (!token) {
+      throw new HttpResponse(null, { status: 400 })
+    } else {
+      if (token['refreshToken'] === 'refresh') {
+        return HttpResponse.json(mockRefreshedAuthToken)
+      }
     }
-  )
-  //http.post('https://api.escuelajs.co/api/v1/products', async ({ request }) => {
-  //  const product = (await request.json()) as CreateProductRequest
-  //  const createdProduct: Partial<Product> = {
-  //    ...product,
-  //    id: 3
-  //  }
-  //  return HttpResponse.json(createdProduct, { status: 201 })
-  //}),
-  //http.get(
-  //  `https://api.escuelajs.co/api/v1/categories/:id/products`,
-  //  ({ params }) => {
-  //    const id = params
-  //    console.log('fetching category with id' + id)
-  //  }
-  //)
+    return new HttpResponse(null, { status: 400 })
+  })
 ]
 
 export const mockServer = setupServer(...handler)

@@ -6,21 +6,26 @@ import SortByPrice from '../../components/category/SortByPrice'
 import { useSelector } from 'react-redux'
 import { AppState } from '../../app/store'
 import { Feedback } from '../../misc/type'
+import {
+  ShowLoading,
+  handleFetchBaseQueryError
+} from '../../components/common/feedback'
 
 export default function CategoryPage({ feedback }: { feedback: Feedback }) {
   const { categoryId } = useParams()
   const sortBy = useSelector((state: AppState) => state.category.sortBy)
 
   const { data, error, isLoading } = useGetProductsByCategoryQuery({
-    categoryId: Number(categoryId),
+    categoryId: String(categoryId),
     sortBy
   })
   if (error) {
-    feedback.handleError(error)
+    return handleFetchBaseQueryError(error)
   }
 
   return (
     <div className='container mx-auto px-4 md:px-16 py-8'>
+      {isLoading && <ShowLoading />}
       {data && (
         <div className='grid gap-4'>
           {

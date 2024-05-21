@@ -54,11 +54,9 @@ export const mockProducts: Product[] = [
     description: 'product1',
     images: ['img1', 'img2'],
     category: {
-      id: 1,
+      id: '1',
       name: 'cloth',
-      image: 'img',
-      creationAt: '2024',
-      updatedAt: '2024'
+      image: 'img'
     },
     creationAt: '2024',
     updatedAt: '2024'
@@ -70,11 +68,9 @@ export const mockProducts: Product[] = [
     description: 'product2',
     images: ['img1', 'img2'],
     category: {
-      id: 2,
+      id: '2',
       name: 'cloth',
-      image: 'img',
-      creationAt: '2024',
-      updatedAt: '2024'
+      image: 'img'
     },
     creationAt: '2024',
     updatedAt: '2024'
@@ -86,11 +82,9 @@ export const mockProducts: Product[] = [
     description: 'product2',
     images: ['img1', 'img2'],
     category: {
-      id: 3,
+      id: '3',
       name: 'cloth',
-      image: 'img',
-      creationAt: '2024',
-      updatedAt: '2024'
+      image: 'img'
     },
     creationAt: '2024',
     updatedAt: '2024'
@@ -110,7 +104,7 @@ export const mockProductsPaged = [
     creationAt: '2024-02-29T14:45:15.000Z',
     updatedAt: '2024-02-29T14:52:59.000Z',
     category: {
-      id: 1,
+      id: '1',
       name: 'Clothes',
       image: 'https://i.imgur.com/QkIa5tT.jpeg',
       creationAt: '2024-02-29T03:37:26.000Z',
@@ -129,7 +123,7 @@ export const mockProductsPaged = [
     creationAt: '2024-02-29T14:45:58.000Z',
     updatedAt: '2024-02-29T14:45:58.000Z',
     category: {
-      id: 1,
+      id: '1',
       name: 'Clothes',
       image: 'https://i.imgur.com/QkIa5tT.jpeg',
       creationAt: '2024-02-29T03:37:26.000Z',
@@ -145,7 +139,7 @@ export const mockProductsPaged = [
     creationAt: '2024-02-29T14:48:24.000Z',
     updatedAt: '2024-02-29T14:48:24.000Z',
     category: {
-      id: 1,
+      id: '1',
       name: 'Clothes',
       image: 'https://i.imgur.com/QkIa5tT.jpeg',
       creationAt: '2024-02-29T03:37:26.000Z',
@@ -153,7 +147,7 @@ export const mockProductsPaged = [
     }
   },
   {
-    id: 258,
+    id: '258',
     title: 'New Product Course',
     price: 122,
     description: 'A description',
@@ -161,7 +155,7 @@ export const mockProductsPaged = [
     creationAt: '2024-02-29T14:48:35.000Z',
     updatedAt: '2024-02-29T14:48:35.000Z',
     category: {
-      id: 1,
+      id: '1',
       name: 'Clothes',
       image: 'https://i.imgur.com/QkIa5tT.jpeg',
       creationAt: '2024-02-29T03:37:26.000Z',
@@ -169,7 +163,7 @@ export const mockProductsPaged = [
     }
   },
   {
-    id: 259,
+    id: '259',
     title: 'Juegos',
     price: 10,
     description: 'ssssssssssssssssss',
@@ -191,17 +185,17 @@ export const mockProductsPaged = [
 
 export const mockCategories = [
   {
-    id: 1,
+    id: '1',
     name: 'Clothes',
     image: 'https://i.imgur.com/QkIa5tT.jpeg'
   },
   {
-    id: 2,
+    id: '2',
     name: 'Electronics',
     image: 'https://i.imgur.com/ZANVnHE.jpeg'
   },
   {
-    id: 3,
+    id: '3',
     name: 'Furniture',
     image: 'https://i.imgur.com/Qphac99.jpeg'
   }

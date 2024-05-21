@@ -40,7 +40,7 @@ export const { setSortMethod } = categorySlice.actions
 export const selectAllCategories = (state: AppState) =>
   state.category.categories
 
-export const selectCategoryById = (state: AppState, id: number) =>
+export const selectCategoryById = (state: AppState, id: string) =>
   state.category.categories
     ? state.category?.categories.filter((_cat) => _cat.id === id)
     : null

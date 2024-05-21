@@ -12,7 +12,13 @@ export const handleFetchBaseQueryError = (
   } else {
     if ('status' in error) {
       const errMsg = 'error' in error ? error.error : JSON.stringify(error.data)
-      return <p>An error has occurred:{errMsg}</p>
+      return (
+        <div className='grid gap-4 justify-center'>
+          <p>An error has occurred.</p>
+          <p>Message: {errMsg}</p>
+          <p>Please come back later.</p>
+        </div>
+      )
     } else {
       return <p>An error has occurred:{error.message}</p>
     }

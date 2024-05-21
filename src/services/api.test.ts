@@ -135,30 +135,30 @@ describe('creatProduct', () => {
 
 describe('getProductByCategory', () => {
   test('no extra param should return default categories', async () => {
-    const param = { categoryId: 1, sortBy: '' }
+    const param = { categoryId: '1', sortBy: '' }
     const payload = await store
       .dispatch(productApi.endpoints.getProductsByCategory.initiate(param))
       .unwrap()
-    const expected = mockProductsPaged.filter((p) => p.category.id === 1)
+    const expected = mockProductsPaged.filter((p) => p.category.id === '1')
     expect(payload).toMatchObject(expected)
   })
   test('pass ascending should return  categories in ascending order', async () => {
-    const param = { categoryId: 1, sortBy: 'ascending' }
+    const param = { categoryId: '1', sortBy: 'ascending' }
     const payload = await store
       .dispatch(productApi.endpoints.getProductsByCategory.initiate(param))
       .unwrap()
     const expected = mockProductsPaged
-      .filter((p) => p.category.id === 1)
+      .filter((p) => p.category.id === '1')
       .sort((a, b) => a.price - b.price)
     expect(payload).toMatchObject(expected)
   })
   test('pass descending should return  categories in descending order', async () => {
-    const param = { categoryId: 1, sortBy: 'descending' }
+    const param = { categoryId: '1', sortBy: 'descending' }
     const payload = await store
       .dispatch(productApi.endpoints.getProductsByCategory.initiate(param))
       .unwrap()
     const expected = mockProductsPaged
-      .filter((p) => p.category.id === 1)
+      .filter((p) => p.category.id === '1')
       .sort((a, b) => b.price - a.price)
     expect(payload).toMatchObject(expected)
   })

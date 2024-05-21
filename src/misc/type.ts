@@ -1,9 +1,18 @@
-export type Category = {
-  id: number
+export interface BaseEntity {
+  id: string
+}
+
+export interface Category extends BaseEntity {
   name: string
   image: string
-  creationAt: string
-  updatedAt: string
+}
+
+export interface CategoryCreateDto {
+  name: string
+}
+
+export interface CategoryUpdateDto {
+  name: string
 }
 
 export type Product = {
@@ -40,7 +49,6 @@ export type UserRegister = {
   password: string
   avatar: string
 }
-
 
 export type User = UserRegister & {
   role: 'customer' | 'admin'
@@ -82,7 +90,6 @@ export type UpdateProductInput = {
 
 export type UpdateProductRequest = UpdateProductInput & { id: number }
 
-
 export type QueryFilters =
   | 'title'
   | 'price_min'
@@ -91,36 +98,32 @@ export type QueryFilters =
   | 'offset'
   | 'limit'
 
-  export type QueryParam = {
-    type: QueryFilters
-    value: string
-  }
-  
-  export type QueryParams = QueryParam[]
+export type QueryParam = {
+  type: QueryFilters
+  value: string
+}
 
+export type QueryParams = QueryParam[]
 
+export type GoogleLoginResponse = {
+  email: string
 
-  export type GoogleLoginResponse = {
-    email: string
+  family_name: string
+  given_name: string
+  id: string
+  locale: string
+  name: string
+  picture: string
+  verified_email: Boolean
+}
 
-    family_name: string
-    given_name: string
-    id: string
-    locale: string
-    name: string
-    picture: string
-    verified_email: Boolean
-  }
+export type Feedback = {
+  handleError: (err: any) => void
+  handleSuccess: (message: string) => void
+}
 
-  export type Feedback = {
-    handleError: (err: any) => void
-    handleSuccess: (message: string) => void
-  }
-
-
-  export type FileResponse = {
-    originalname: string
-    filename: string
-    location: string
-  }
-
+export type FileResponse = {
+  originalname: string
+  filename: string
+  location: string
+}

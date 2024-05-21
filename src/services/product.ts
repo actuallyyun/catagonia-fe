@@ -64,7 +64,7 @@ const productApi = createApi({
         categoryId,
         sortBy
       }: {
-        categoryId: number
+        categoryId: string
         sortBy: string
       }) => ({
         url: `/categories/${categoryId}/products/`,

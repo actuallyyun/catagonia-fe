@@ -70,14 +70,14 @@ describe('getAllProducts endpoint', () => {
 describe('getSingleProduct', () => {
   test('return correct product by id', async () => {
     const payload = await store
-      .dispatch(productApi.endpoints.getSingleProduct.initiate(2))
+      .dispatch(productApi.endpoints.getSingleProduct.initiate('2'))
       .unwrap()
 
     expect(payload).toMatchObject(mockProducts[1])
   })
   test('return null if not found', async () => {
     const payload = await store
-      .dispatch(productApi.endpoints.getSingleProduct.initiate(200))
+      .dispatch(productApi.endpoints.getSingleProduct.initiate('200'))
       .unwrap()
     expect(payload).toBe(null)
   })
@@ -85,7 +85,7 @@ describe('getSingleProduct', () => {
 
 describe('updateProduct', () => {
   test('update product correctly', async () => {
-    const req = { title: 'product1-updated', price: 100, id: 1 }
+    const req = { title: 'product1-updated', price: 100, id: '1' }
     const payload = await store
       .dispatch(productApi.endpoints.updateProduct.initiate(req))
       .unwrap()
@@ -93,7 +93,7 @@ describe('updateProduct', () => {
     expect(payload.price).toEqual(req.price)
   })
   test('product not found is not updated', async () => {
-    const req = { title: 'product1-updated', price: 100, id: 100 }
+    const req = { title: 'product1-updated', price: 100, id: '100' }
     const payload = await store.dispatch(
       productApi.endpoints.updateProduct.initiate(req)
     )
@@ -103,13 +103,13 @@ describe('updateProduct', () => {
 describe('deleteProduct', () => {
   test('delete successfuly', async () => {
     const payload = await store
-      .dispatch(productApi.endpoints.deleteProduct.initiate(1))
+      .dispatch(productApi.endpoints.deleteProduct.initiate('1'))
       .unwrap()
     expect(payload).toBeTruthy()
   })
   test('not found', async () => {
     const payload = await store.dispatch(
-      productApi.endpoints.deleteProduct.initiate(100)
+      productApi.endpoints.deleteProduct.initiate('100')
     )
     expect(payload).toMatchObject({ error: { status: 404, data: null } })
   })
@@ -120,6 +120,7 @@ describe('creatProduct', () => {
     const req: CreateProductRequest = {
       title: 'New Product',
       price: 10,
+      inventory: 100,
       description: 'A description',
       categoryId: 1,
       images: ['https://placeimg.com/640/480/any']

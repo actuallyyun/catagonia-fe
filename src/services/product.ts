@@ -20,7 +20,7 @@ const productApi = createApi({
       }),
       providesTags: [{ type: 'Products' }]
     }),
-    getSingleProduct: builder.query<Product, number>({
+    getSingleProduct: builder.query<Product, string>({
       query: (productId) => ({
         url: `/products/${productId}`,
         method: 'GET'
@@ -38,7 +38,7 @@ const productApi = createApi({
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Product', id: arg.id }]
     }),
-    deleteProduct: builder.mutation<Boolean, number>({
+    deleteProduct: builder.mutation<Boolean, string>({
       query: (productId) => ({
         url: `/products/${productId}`,
         method: 'DELETE'

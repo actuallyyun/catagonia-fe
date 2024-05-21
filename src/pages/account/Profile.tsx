@@ -31,7 +31,7 @@ export default function Profile({ feedback }: { feedback: Feedback }) {
                 <p className='text-gray-400'>
                   <strong>Name</strong>
                 </p>
-                <p>{currentUser.name}</p>
+                <p>{`${currentUser.firstname} ${currentUser.lastname}`}</p>
                 <p className='text-gray-400'>
                   <strong>Email</strong>
                 </p>

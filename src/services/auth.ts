@@ -44,11 +44,12 @@ const authApi = createApi({
     getUser: builder.query<UserInfo, void>({
       query: () => ({ url: '/auth/profile' }),
       transformResponse: (response: User) => {
-        const { id, role, name, email, avatar } = response
+        const { id, role, firstname, lastname, email, avatar } = response
         return {
           id,
           role,
-          name,
+          firstname,
+          lastname,
           email,
           avatar
         }

@@ -3,12 +3,12 @@ import { useDispatch } from 'react-redux'
 import { removeItem } from './cartSlice'
 
 type Props = {
-  id: number
+  id: string
 }
 export default function RemoveFromCart({ id }: Props) {
   const dispath = useDispatch()
 
-  const handleClick = (id: number) => {
+  const handleClick = (id: string) => {
     dispath(removeItem(id))
   }
   return (

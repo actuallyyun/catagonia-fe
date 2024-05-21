@@ -22,6 +22,7 @@ const createProductSchema = Yup.object().shape({
     .max(50, 'Too Long!')
     .required('Required'),
   price: Yup.number().min(1).max(1000).required(),
+  inventory: Yup.number().min(1).max(1000).required(),
   description: Yup.string()
     .min(6, 'Must be at least 6 characters')
     .max(200)
@@ -92,6 +93,10 @@ export default function CreateProductForm({
           Price
         </label>
         <input {...register('price')} />
+        <label htmlFor='inventory' className='dark:text-gray-800'>
+          Inventory
+        </label>
+        <input {...register('inventory')} />
         {errors.price ? <div>{errors.price.message}</div> : null}
         <label htmlFor='categoryId' className='dark:text-gray-800'>
           Choose a category

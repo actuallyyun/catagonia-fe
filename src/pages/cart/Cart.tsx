@@ -19,7 +19,7 @@ export const CartItemCard = ({ item }: CartItemProp) => {
     setQuantity((prev) => (prev = parseInt(e.target.value)))
   }
   const dispatch = useDispatch()
-  const handleUpdate = (id: number) => {
+  const handleUpdate = (id: string) => {
     dispatch(
       updateQuantity({
         productId: id,
@@ -33,7 +33,7 @@ export const CartItemCard = ({ item }: CartItemProp) => {
     return null
   }
 
-  const handleRemove = (id: number) => {
+  const handleRemove = (id: string) => {
     dispatch(removeItem(id))
   }
 

@@ -12,7 +12,11 @@ import { useUploadFileMutation } from '../../services/file'
 const defaultImage = 'https://picsum.photos/id/237/200/200'
 
 const SignupSchema = Yup.object().shape({
-  name: Yup.string()
+  firstname: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  lastname: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
@@ -71,15 +75,28 @@ const UserRegisterForm = ({ feedback }: { feedback: Feedback }) => {
     <div className='grid gap-8'>
       <h1>Create an Account.</h1>
       <form onSubmit={handleSubmit(onSubmit)} className='grid'>
-        <Label htmlFor='name' value='Username' />
+        <Label htmlFor='firstname' value='Firstname' />
         <TextInput
-          {...register('name')}
-          placeholder='Username'
-          color={errors.name ? 'failure' : ''}
+          {...register('firstname')}
+          placeholder='Firstname'
+          color={errors.firstname ? 'failure' : ''}
           helperText={
             <>
-              {errors.name && (
-                <span className='font-medium'>{errors.name.message}</span>
+              {errors.firstname && (
+                <span className='font-medium'>{errors.firstname.message}</span>
+              )}
+            </>
+          }
+        />
+        <Label htmlFor='lastname' value='Lastname' />
+        <TextInput
+          {...register('lastname')}
+          placeholder='Lastname'
+          color={errors.lastname ? 'failure' : ''}
+          helperText={
+            <>
+              {errors.lastname && (
+                <span className='font-medium'>{errors.lastname.message}</span>
               )}
             </>
           }

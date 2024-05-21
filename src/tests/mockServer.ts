@@ -26,16 +26,18 @@ export const mockAuthHeader = {
   Authorization: 'Bearer access'
 }
 export const mockUserInfo: UserInfo = {
-  id: 1,
-  name: 'user1',
+  id: '1',
+  firstname: 'user1',
+  lastname: 'lastname1',
   email: 'user1@gmail.com',
-  role: 'customer',
+  role: 'user',
   avatar: 'img'
 }
 
 export const mockUserRes = {
-  id: 1,
-  name: 'user1',
+  id: '1',
+  fisrstname: 'user1',
+  lastnamt: 'lastname1',
   email: 'user1@gmail.com',
   role: 'customer',
   avatar: 'img',
@@ -48,11 +50,16 @@ export const userLoginRequest: UserLoginRequest = {
 }
 export const mockProducts: Product[] = [
   {
-    id: 1,
+    id: '1',
     title: 'product1',
     price: 1,
+    inventory: 2,
     description: 'product1',
-    images: ['img1', 'img2'],
+    rating: 3,
+    images: [
+      { id: 'id1', url: 'img1' },
+      { id: 'id2', url: 'img2' }
+    ],
     category: {
       id: '1',
       name: 'cloth',
@@ -62,13 +69,18 @@ export const mockProducts: Product[] = [
     updatedAt: '2024'
   },
   {
-    id: 2,
+    id: '2',
     title: 'product2',
-    price: 2,
+    price: 1,
+    inventory: 2,
     description: 'product2',
-    images: ['img1', 'img2'],
+    rating: 3,
+    images: [
+      { id: 'id1', url: 'img1' },
+      { id: 'id2', url: 'img2' }
+    ],
     category: {
-      id: '2',
+      id: '1',
       name: 'cloth',
       image: 'img'
     },
@@ -76,13 +88,18 @@ export const mockProducts: Product[] = [
     updatedAt: '2024'
   },
   {
-    id: 3,
-    title: 'product2',
-    price: 2,
-    description: 'product2',
-    images: ['img1', 'img2'],
+    id: '3',
+    title: 'product3',
+    price: 1,
+    inventory: 2,
+    description: 'product3',
+    rating: 3,
+    images: [
+      { id: 'id1', url: 'img1' },
+      { id: 'id2', url: 'img2' }
+    ],
     category: {
-      id: '3',
+      id: '1',
       name: 'cloth',
       image: 'img'
     },
@@ -93,9 +110,11 @@ export const mockProducts: Product[] = [
 
 export const mockProductsPaged = [
   {
-    id: 255,
+    id: '255',
     title: 'de',
     price: 120000,
+    inventory: 100,
+    rating: 1,
     description: 'ddddddddddd',
     images: [
       'https://placeimg.com/640/480/any',
@@ -112,9 +131,11 @@ export const mockProductsPaged = [
     }
   },
   {
-    id: 256,
+    id: '256',
     title: 'frio',
     price: 12,
+    inventory: 10,
+    rating: 3,
     description: 'dddddddddd',
     images: [
       'https://placeimg.com/640/480/any',
@@ -131,9 +152,11 @@ export const mockProductsPaged = [
     }
   },
   {
-    id: 257,
+    id: '257',
     title: 'New Product Course',
     price: 122,
+    inventory: 70,
+    rating: 3,
     description: 'A description',
     images: ['https://placeimg.com/640/480/any'],
     creationAt: '2024-02-29T14:48:24.000Z',
@@ -150,6 +173,8 @@ export const mockProductsPaged = [
     id: '258',
     title: 'New Product Course',
     price: 122,
+    inventory: 22,
+    rating: 2,
     description: 'A description',
     images: ['https://placeimg.com/640/480/any'],
     creationAt: '2024-02-29T14:48:35.000Z',
@@ -166,6 +191,8 @@ export const mockProductsPaged = [
     id: '259',
     title: 'Juegos',
     price: 10,
+    inventory: 100,
+    rating: 1,
     description: 'ssssssssssssssssss',
     images: [
       'https://placeimg.com/640/480/any',
@@ -237,24 +264,24 @@ export const handler = [
 
     return HttpResponse.json(mockProductsPaged, { status: 200 })
   }),
-    http.put(`${API_URL}/products/:id`, async ({ request, params }) => {
-      const id = Number(params.id)
-      const body = (await request.json()) as UpdateProductRequest
-      const index = mockProducts.findIndex((_p) => _p.id === id)
-      if (index !== -1) {
-        const updatedProd = {
-          ...mockProducts[index],
-          title: body.title,
-          price: body.price
-        }
-        mockProducts.splice(index, 1, updatedProd)
-        return HttpResponse.json(mockProducts.find((p) => p.id === id))
-      } else {
-        return HttpResponse.json(null, { status: 404 })
+  http.put(`${API_URL}/products/:id`, async ({ request, params }) => {
+    const id = params.id
+    const body = (await request.json()) as UpdateProductRequest
+    const index = mockProducts.findIndex((_p) => _p.id === id)
+    if (index !== -1) {
+      const updatedProd = {
+        ...mockProducts[index],
+        title: body.title,
+        price: body.price
       }
-    }),
+      mockProducts.splice(index, 1, updatedProd)
+      return HttpResponse.json(mockProducts.find((p) => p.id === id))
+    } else {
+      return HttpResponse.json(null, { status: 404 })
+    }
+  }),
     http.delete(`${API_URL}/products/:id`, ({ request, params }) => {
-      const id = Number(params.id)
+      const id = params.id
       const index = mockProducts.findIndex((_p) => _p.id === id)
       if (index !== -1) {
         mockProducts.splice(index, 1)
@@ -263,13 +290,13 @@ export const handler = [
         return new HttpResponse(null, { status: 404 })
       }
     }),
-    http.post(`${API_URL}/products`, async ({ request, params }) => {
-      const body = await request.json()
-      return HttpResponse.json(body)
-    }),
-    http.get(`${API_URL}/categories`, () => {
-      return HttpResponse.json(mockCategories)
-    }),
+  http.post(`${API_URL}/products`, async ({ request, params }) => {
+    const body = await request.json()
+    return HttpResponse.json(body)
+  }),
+  http.get(`${API_URL}/categories`, () => {
+    return HttpResponse.json(mockCategories)
+  }),
   http.get(`${API_URL}/categories/:id/products`, ({ request, params }) => {
     const id = Number(params.id)
     const filteredProducts = mockProductsPaged.filter(
@@ -277,39 +304,39 @@ export const handler = [
     )
     return HttpResponse.json(filteredProducts)
   }),
-    http.get(`${API_URL}/products/:id`, ({ request, params }) => {
-      const productId = Number(params.id)
-      if (productId) {
-        const product = mockProducts.find((_p) => _p.id === productId)
-        return HttpResponse.json(product)
-      } else {
-        return new HttpResponse(null, { status: 404 })
-      }
-    }),
-    http.post(`${API_URL}/auth/login`, async ({ request }) => {
-      const userReq = (await request.json()) as UserLoginRequest | null
-      if (!userReq) {
-        return new HttpResponse(null, { status: 400 })
-      }
-      if (
-        userReq?.email === userLoginRequest.email &&
-        userReq?.password === userLoginRequest.password
-      ) {
-        return HttpResponse.json(mockAuthToken, { status: 200 })
-      }
+  http.get(`${API_URL}/products/:id`, ({ request, params }) => {
+    const productId = params.id
+    if (productId) {
+      const product = mockProducts.find((_p) => _p.id === productId)
+      return HttpResponse.json(product)
+    } else {
+      return new HttpResponse(null, { status: 404 })
+    }
+  }),
+  http.post(`${API_URL}/auth/login`, async ({ request }) => {
+    const userReq = (await request.json()) as UserLoginRequest | null
+    if (!userReq) {
       return new HttpResponse(null, { status: 400 })
-    }),
-    http.get(`${API_URL}/auth/profile`, ({ request }) => {
-      if (!request.headers.has('Authorization')) {
-        throw new HttpResponse(null, { status: 400 })
+    }
+    if (
+      userReq?.email === userLoginRequest.email &&
+      userReq?.password === userLoginRequest.password
+    ) {
+      return HttpResponse.json(mockAuthToken, { status: 200 })
+    }
+    return new HttpResponse(null, { status: 400 })
+  }),
+  http.get(`${API_URL}/auth/profile`, ({ request }) => {
+    if (!request.headers.has('Authorization')) {
+      throw new HttpResponse(null, { status: 400 })
+    } else {
+      if (request.headers.get('Authorization') === 'Bearer access') {
+        return HttpResponse.json(mockUserRes, { status: 200 })
       } else {
-        if (request.headers.get('Authorization') === 'Bearer access') {
-          return HttpResponse.json(mockUserRes, { status: 200 })
-        } else {
-          throw new HttpResponse(null, { status: 400 })
-        }
+        throw new HttpResponse(null, { status: 400 })
       }
-    }),
+    }
+  }),
   http.post(`${API_URL}/auth/refresh-token`, async ({ request }) => {
     const token = (await request.json()) as { refreshToken: string } | null
     if (!token) {

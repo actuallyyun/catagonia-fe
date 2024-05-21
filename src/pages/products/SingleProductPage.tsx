@@ -1,8 +1,6 @@
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { Carousel } from 'flowbite-react'
-import { redirect } from 'react-router-dom'
 
 import { useGetSingleProductQuery } from '../../services/product'
 import AddToCart from '../../components/cart/AddToCart'
@@ -11,11 +9,9 @@ import UpdateProductForm from '../../components/product/UpdateProductForm'
 import { isAdmin } from '../../components/user/userSlice'
 import CustomBreadcrumb from '../../components/common/CustomBreadcrumb'
 import { Feedback } from '../../misc/type'
-import { cleanImageUrl, generateRandomImage } from '../../misc/utils'
 import { useEffect } from 'react'
 import RemoveProduct from './RemoveProduct'
 import ProductCarousel from './ProductCarousel'
-
 
 export default function SingleProductPage({
   feedback
@@ -25,8 +21,8 @@ export default function SingleProductPage({
   const nav = useNavigate()
   const admin = useSelector(isAdmin)
   const { productId } = useParams()
-
-  const { data, error, isLoading } = useGetSingleProductQuery(Number(productId))
+  const { data, error, isLoading } = useGetSingleProductQuery(String(productId))
+  const images = data?.images.map((img) => img.url)
 
   useEffect(() => {
     if (error) {
@@ -34,9 +30,6 @@ export default function SingleProductPage({
     }
   }, [error])
 
-  const images = data?.images.map((img) => {
-    return cleanImageUrl(img) ?? generateRandomImage()
-  })
   const { isLoggedIn } = useSelector((state: AppState) => state.user)
 
   return (

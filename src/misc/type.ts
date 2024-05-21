@@ -2,6 +2,11 @@ export interface BaseEntity {
   id: string
 }
 
+export interface TimeStamp {
+  createdAt: TimeStamp
+  updatedAt: TimeStamp
+}
+
 export interface Category extends BaseEntity {
   name: string
   image: string
@@ -15,15 +20,22 @@ export interface CategoryUpdateDto {
   name: string
 }
 
+export interface ImageReadDto {
+  id: string
+  url: string
+}
+
 export type Product = {
-  id: number
+  id: string
   title: string
   price: number
   description: string
-  images: string[]
+  images: ImageReadDto[]
   creationAt: string
   updatedAt: string
   category: Category
+  rating: number
+  inventory: number
 }
 
 export type CreateProductInput = {
@@ -31,6 +43,7 @@ export type CreateProductInput = {
   price: number
   description: string
   categoryId: number
+  inventory: number
 }
 
 export type CreateProductRequest = CreateProductInput & {
@@ -38,27 +51,30 @@ export type CreateProductRequest = CreateProductInput & {
 }
 
 export type UserTextInput = {
-  name: string
+  firstname: string
+  lastname: string
   email: string
   password: string
 }
 
 export type UserRegister = {
-  name: string
+  firstname: string
+  lastname: string
   email: string
   password: string
   avatar: string
 }
 
 export type User = UserRegister & {
-  role: 'customer' | 'admin'
-  id: number
+  role: 'user' | 'admin'
+  id: string
 }
 
 export type UserInfo = {
-  id: number
-  role: 'customer' | 'admin'
-  name: string
+  id: string
+  role: 'user' | 'admin'
+  firstname: string
+  lastname: string
   email: string
   avatar: string
 }
@@ -74,7 +90,7 @@ export type UserLoginRequest = {
 }
 
 export type CartItem = {
-  productId: number
+  productId: string
   quantity: number
 }
 
@@ -88,7 +104,7 @@ export type UpdateProductInput = {
   price: number
 }
 
-export type UpdateProductRequest = UpdateProductInput & { id: number }
+export type UpdateProductRequest = UpdateProductInput & { id: string }
 
 export type QueryFilters =
   | 'title'
@@ -126,4 +142,46 @@ export type FileResponse = {
   originalname: string
   filename: string
   location: string
+}
+
+enum OrderStatus {
+  Created,
+  Processing,
+  Completed,
+  Cancelled
+}
+
+export type OrderItem = {
+  orderId: string
+  product: Product
+  quantity: number
+  price: number
+}
+
+export type Address = {
+  id: string
+  userId: string
+  firstname: string
+  lastname: string
+  addressLine: string
+  postalCode: string
+  country: string
+  phoneNumber: string
+}
+
+export interface OrderReadDto extends TimeStamp {
+  id: string
+  userId: string
+  status: OrderStatus
+  items: OrderItem[]
+  address: Address
+}
+
+export interface ReviewReadDto extends BaseEntity, TimeStamp {
+  user: UserInfo
+  productId: string
+  isAnonymous: boolean
+  content: string
+  rating: number
+  images: ImageReadDto[]
 }

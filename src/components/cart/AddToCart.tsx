@@ -9,7 +9,7 @@ import { useGetSingleProductQuery } from '../../services/product'
 import { CartItemProp } from '../../pages/cart/Cart'
 
 type Props = {
-  id: number
+  id: string
 }
 
 export type ModalProps = {
@@ -74,7 +74,7 @@ export default function AddToCart({ id }: Props) {
 
   const dispath = useDispatch()
 
-  const handleClick = (id: number) => {
+  const handleClick = (id: string) => {
     dispath(addItem({ productId: id, quantity: quantity }))
     setOpenModal(true)
   }

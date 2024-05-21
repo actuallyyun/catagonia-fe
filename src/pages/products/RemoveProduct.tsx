@@ -7,11 +7,11 @@ const RemoveProduct = ({
   id,
   feedback
 }: {
-  id: number
+  id: string
   feedback: Feedback
 }) => {
   const [deleteProduct] = useDeleteProductMutation()
-  const handleRemove = async (id: number) => {
+  const handleRemove = async (id: string) => {
     try {
       const payload = await deleteProduct(id).unwrap()
       if (payload) {

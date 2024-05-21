@@ -16,10 +16,11 @@ export default function LogInWithGoogle({ feedback }: { feedback: Feedback }) {
       )
       const data = (await res.json()) as GoogleLoginResponse
       const user: UserInfo = {
-        id: Number(data.id),
-        role: 'customer',
+        id: data.id,
+        role: 'user',
         email: data.email,
-        name: `${data.given_name} ${data.family_name}`,
+        firstname: data.given_name,
+        lastname: data.family_name,
         avatar: data.picture
       }
       //save user to redux store

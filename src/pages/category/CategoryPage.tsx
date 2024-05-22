@@ -30,7 +30,7 @@ export default function CategoryPage({ feedback }: { feedback: Feedback }) {
         <div className='grid gap-4'>
           {
             <div className='grid gap-2'>
-              <h2>{data[0].category.name}</h2>
+              {data[0].category && <h2>{data[0].category.name}</h2>}
               <p>{data.length} Items</p>
             </div>
           }

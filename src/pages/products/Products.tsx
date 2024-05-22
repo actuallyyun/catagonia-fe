@@ -6,6 +6,8 @@ import ProductCard from '../../components/product/ProductCard'
 import { PaginationNav } from '../../components/common/Pagination'
 import SearchProduct from '../../components/product/SearchProduct'
 import { QueryParams } from '../../misc/type'
+import { ShowLoading } from '../../components/common/feedback'
+import ProductReview from '../../components/product/ProductReview'
 
 export default function Products({ feedback }: { feedback: Feedback }) {
   const [query, setQuery] = useState<QueryParams>([
@@ -26,6 +28,7 @@ export default function Products({ feedback }: { feedback: Feedback }) {
 
   return (
     <div className='grid justify-center gap-8'>
+      {isLoading && <ShowLoading />}
       <SearchProduct setQuery={setQuery} />
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 grid-rows-auto justify-center'>
         {data &&

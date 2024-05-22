@@ -14,7 +14,7 @@ const fileApi = createApi({
         const bodyFormData = new FormData()
         bodyFormData.append('file', imgFile)
         return {
-          url: '/files/upload/',
+          url: '/users/file',
           method: 'POST',
           body: bodyFormData,
           formData: true

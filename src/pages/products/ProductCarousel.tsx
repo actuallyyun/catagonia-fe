@@ -1,13 +1,10 @@
 import { Carousel } from 'flowbite-react'
+import { Product } from '../../misc/type'
 
-export default function ProductCarousel({
-  images
-}: {
-  images: string[] | undefined
-}) {
-  if (!images) {
-    return null
-  }
+export default function ProductCarousel({ data }: { data: Product }) {
+  const images = data?.images.map((img) => img.imageUrl)
+  console.log({ images })
+
   return (
     <div className='h-96'>
       <Carousel>

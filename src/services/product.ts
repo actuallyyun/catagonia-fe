@@ -4,14 +4,15 @@ import {
   Product,
   UpdateProductRequest,
   QueryParams,
-  CreateProductRequest
+  CreateProductRequest,
+  ReviewReadDto
 } from '../misc/type'
 import { API_URL, constructQueryUrl } from '../misc/utils'
 
 const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
-  tagTypes: ['Products', 'Product', 'Category'],
+  tagTypes: ['Products', 'Product', 'Category', 'Review'],
   endpoints: (builder) => ({
     getAllProducts: builder.query<Product[], QueryParams | null>({
       query: (param) => ({
@@ -52,6 +53,17 @@ const productApi = createApi({
         body: product
       }),
       invalidatesTags: [{ type: 'Products' }]
+    }),
+    getReviewsByProduct: builder.query({
+      query: (productId: string) => ({
+        url: `/products/${productId}/reviews/`,
+        method: 'GET'
+      }),
+      providesTags: ['Review'],
+      transformResponse: (response: ReviewReadDto[], meta, arg) =>
+        response.sort(
+          (a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt)
+        )
     }),
 
     getCategories: builder.query<Category[], void>({
@@ -96,6 +108,7 @@ export const {
   useDeleteProductMutation,
   useCreateProductMutation,
   useGetCategoriesQuery,
-  useGetProductsByCategoryQuery
+  useGetProductsByCategoryQuery,
+  useGetReviewsByProductQuery
 } = productApi
 export default productApi

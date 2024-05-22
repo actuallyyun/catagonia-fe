@@ -20,6 +20,7 @@ const authApi = createApi({
       if (token) {
         headers.set('Authorization', `Bearer ${token}`)
       }
+      headers.set('Content-Type', 'application/json')
       return headers
     }
   }),
@@ -42,7 +43,7 @@ const authApi = createApi({
       }
     }),
     getUser: builder.query<UserInfo, void>({
-      query: () => ({ url: '/auth/profile' }),
+      query: () => ({ url: '/users/profile' }),
       transformResponse: (response: User) => {
         const { id, role, firstname, lastname, email, avatar } = response
         return {

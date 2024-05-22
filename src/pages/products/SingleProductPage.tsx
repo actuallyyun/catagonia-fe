@@ -2,7 +2,10 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
-import { useGetSingleProductQuery } from '../../services/product'
+import {
+  useGetReviewsByProductQuery,
+  useGetSingleProductQuery
+} from '../../services/product'
 import AddToCart from '../../components/cart/AddToCart'
 import { AppState } from '../../app/store'
 import UpdateProductForm from '../../components/product/UpdateProductForm'
@@ -12,6 +15,8 @@ import { Feedback } from '../../misc/type'
 import { useEffect } from 'react'
 import RemoveProduct from './RemoveProduct'
 import ProductCarousel from './ProductCarousel'
+import ProductReview from '../../components/product/ProductReview'
+import { ShowLoading } from '../../components/common/feedback'
 
 export default function SingleProductPage({
   feedback
@@ -22,7 +27,8 @@ export default function SingleProductPage({
   const admin = useSelector(isAdmin)
   const { productId } = useParams()
   const { data, error, isLoading } = useGetSingleProductQuery(String(productId))
-  const images = data?.images.map((img) => img.url)
+
+  const reviewData = useGetReviewsByProductQuery(String(productId))
 
   useEffect(() => {
     if (error) {
@@ -34,8 +40,9 @@ export default function SingleProductPage({
 
   return (
     <div className='container mx-auto px-4 md:px-16 py-16'>
+      {isLoading && <ShowLoading />}
       <div className='grid md:grid-cols-2 gap-8'>
-        <div>{data && <ProductCarousel images={images} />}</div>
+        <div>{data && <ProductCarousel data={data} />}</div>
         <div className='grid gap-2'>
           {data && (
             <div>
@@ -66,6 +73,10 @@ export default function SingleProductPage({
         {data && isLoggedIn && admin && (
           <RemoveProduct id={data.id} feedback={feedback} />
         )}
+      </div>
+      <div>
+        {' '}
+        {reviewData.data && <ProductReview reviews={reviewData.data} />}
       </div>
     </div>
   )

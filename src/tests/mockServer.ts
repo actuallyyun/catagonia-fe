@@ -8,7 +8,8 @@ import {
   UserLoginRequest,
   UserInfo,
   QueryParams,
-  UpdateProductRequest
+  UpdateProductRequest,
+  ReviewReadDto
 } from '../misc/type'
 import { API_URL, urlParser } from '../misc/utils'
 
@@ -48,6 +49,37 @@ export const userLoginRequest: UserLoginRequest = {
   email: mockUserInfo.email,
   password: 'user1password'
 }
+
+const mockReviews: ReviewReadDto[] = [
+  {
+    id: '1',
+    user: mockUserInfo,
+    isAnonymous: false,
+    content: 'Great product, highly recommend!',
+    rating: 5,
+    createdAt: '2024-02-01T08:00:00Z',
+    updatedAt: '2024-02-02T08:00:00Z'
+  },
+  {
+    id: '2',
+    user: mockUserInfo,
+    isAnonymous: true,
+    content: 'Decent quality, but could be improved.',
+    rating: 3,
+    createdAt: '2024-02-01T08:00:00Z',
+    updatedAt: '2024-02-02T08:00:00Z'
+  },
+  {
+    id: '3',
+    user: mockUserInfo,
+    isAnonymous: false,
+    content: 'Not satisfied with the purchase.',
+    rating: 2,
+    createdAt: '2024-02-01T08:00:00Z',
+    updatedAt: '2024-02-02T08:00:00Z'
+  }
+]
+
 export const mockProducts: Product[] = [
   {
     id: '1',
@@ -57,9 +89,10 @@ export const mockProducts: Product[] = [
     description: 'product1',
     rating: 3,
     images: [
-      { id: 'id1', url: 'img1' },
-      { id: 'id2', url: 'img2' }
+      { id: 'id1', imageUrl: 'img1' },
+      { id: 'id2', imageUrl: 'img2' }
     ],
+    reviews: mockReviews,
     category: {
       id: '1',
       name: 'cloth',
@@ -76,9 +109,10 @@ export const mockProducts: Product[] = [
     description: 'product2',
     rating: 3,
     images: [
-      { id: 'id1', url: 'img1' },
-      { id: 'id2', url: 'img2' }
+      { id: 'id1', imageUrl: 'img1' },
+      { id: 'id2', imageUrl: 'img2' }
     ],
+    reviews: mockReviews,
     category: {
       id: '1',
       name: 'cloth',
@@ -94,9 +128,11 @@ export const mockProducts: Product[] = [
     inventory: 2,
     description: 'product3',
     rating: 3,
+    reviews: mockReviews,
+
     images: [
-      { id: 'id1', url: 'img1' },
-      { id: 'id2', url: 'img2' }
+      { id: 'id1', imageUrl: 'img1' },
+      { id: 'id2', imageUrl: 'img2' }
     ],
     category: {
       id: '1',

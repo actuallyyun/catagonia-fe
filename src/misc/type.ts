@@ -3,8 +3,8 @@ export interface BaseEntity {
 }
 
 export interface TimeStamp {
-  createdAt: TimeStamp
-  updatedAt: TimeStamp
+  createdAt: string
+  updatedAt: string
 }
 
 export interface Category extends BaseEntity {
@@ -22,7 +22,7 @@ export interface CategoryUpdateDto {
 
 export interface ImageReadDto {
   id: string
-  url: string
+  imageUrl: string
 }
 
 export type Product = {
@@ -36,6 +36,7 @@ export type Product = {
   category: Category
   rating: number
   inventory: number
+  reviews: ReviewReadDto[]
 }
 
 export type CreateProductInput = {
@@ -179,9 +180,7 @@ export interface OrderReadDto extends TimeStamp {
 
 export interface ReviewReadDto extends BaseEntity, TimeStamp {
   user: UserInfo
-  productId: string
   isAnonymous: boolean
   content: string
   rating: number
-  images: ImageReadDto[]
 }

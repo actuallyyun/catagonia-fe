@@ -10,7 +10,9 @@ import {
   Address,
   AddressCreateDto,
   OrderReadDto,
-  OrderCreateDto
+  OrderCreateDto,
+  ReviewReadDto,
+  ReviewCreateDto
 } from '../misc/type'
 import { API_URL } from '../misc/utils'
 
@@ -103,6 +105,17 @@ const authApi = createApi({
         console.log({ response })
         return response
       }
+    }),
+    createReview: builder.mutation<ReviewReadDto, ReviewCreateDto>({
+      query: (credentials) => ({
+        url: '/reviews',
+        method: 'POST',
+        body: credentials
+      }),
+      transformResponse: (response: ReviewReadDto) => {
+        console.log({ response })
+        return response
+      }
     })
   })
 })
@@ -115,7 +128,8 @@ export const {
   useGetUserAddressesQuery,
   useCreateAddressMutation,
   useCreateOrderMutation,
-  useGetUserOrdersQuery
+  useGetUserOrdersQuery,
+  useCreateReviewMutation
 } = authApi
 
  export default authApi

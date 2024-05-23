@@ -1,14 +1,23 @@
 import { Product, ReviewReadDto } from '../../misc/type'
 import { Button } from 'flowbite-react'
 import { Rating } from 'flowbite-react'
+import CreateReviewForm from './ProductReviewForm'
+import { useState } from 'react'
+import { Feedback } from '../../misc/type'
 
 export type ProductReviewProp = {
   reviews: ReviewReadDto[]
   product: Product
+  feedback: Feedback
 }
 
-export default function ProductReview({ reviews, product }: ProductReviewProp) {
+export default function ProductReview({
+  reviews,
+  product,
+  feedback
+}: ProductReviewProp) {
   console.log({ reviews })
+  const [showReviewForm, setShowReviewForm] = useState(false)
 
   return (
     <div>
@@ -17,12 +26,20 @@ export default function ProductReview({ reviews, product }: ProductReviewProp) {
         {reviews.length === 0 && (
           <div>
             <h3>No reviews yet.</h3>
-            <Button type='submit' gradientDuoTone='purpleToPink'>
-              Write A Reivew
-            </Button>
           </div>
         )}
-
+        <div className={showReviewForm ? 'hidden' : 'grid'}>
+          <Button
+            onClick={() => setShowReviewForm(true)}
+            type='submit'
+            gradientDuoTone='purpleToPink'
+          >
+            Write A Reivew
+          </Button>
+        </div>
+        <div className={showReviewForm ? 'grid' : 'hidden'}>
+          <CreateReviewForm feedback={feedback} productId={product.id} />
+        </div>
         {reviews.length > 0 && (
           <div className='grid gap-6'>
             <div className='flex flex-row gap-6'>
@@ -30,11 +47,7 @@ export default function ProductReview({ reviews, product }: ProductReviewProp) {
               <ProductRating rating={product.rating} size='lg' />
             </div>
             <p>Based on {reviews.length} reviews</p>
-            <div>
-              <Button type='submit' gradientDuoTone='purpleToPink'>
-                Write A Reivew
-              </Button>
-            </div>
+
             <p>{reviews.length} Reviews</p>
             <div>
               {reviews.map((review) => {
@@ -57,7 +70,7 @@ export type ReviewCardProp = {
 }
 export function ReviewCard({ review }: ReviewCardProp) {
   return (
-    <div className='grid grid-cols-12 gap-8 divide-y divide-dashed my-6'>
+    <div className='grid grid-cols-12 gap-8 divide-y divide-dashed my-'>
       <div className='col-span-2'>
         {review.user && <img src={review.user.avatar} />}
       </div>
@@ -85,7 +98,7 @@ export function ProductRating({ rating, size }: ProductRatingProps) {
   const star = new Array(rating).fill(0)
   const filled = new Array(5 - rating).fill(0)
   return (
-    <Rating size={size}>
+    <Rating size={size} key={rating}>
       {star.map((s) => (
         <Rating.Star />
       ))}

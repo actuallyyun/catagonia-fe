@@ -208,3 +208,13 @@ export interface ReviewReadDto extends BaseEntity, TimeStamp {
   content: string
   rating: number
 }
+
+export interface ReviewCreateDto extends ReviewUserInput {
+  productId: string
+}
+
+export interface ReviewUserInput {
+  isAnonymous: boolean
+  content: string
+  rating: number
+}

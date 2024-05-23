@@ -78,7 +78,11 @@ export default function SingleProductPage({
       <div className='py-12 grid gap-8'>
         {' '}
         {reviewData.data && data && (
-          <ProductReview reviews={reviewData.data} product={data} />
+          <ProductReview
+            reviews={reviewData.data}
+            product={data}
+            feedback={feedback}
+          />
         )}
       </div>
     </div>

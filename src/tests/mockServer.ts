@@ -14,13 +14,13 @@ import {
 import { API_URL, urlParser } from '../misc/utils'
 
 export const mockAuthToken: UserAuthToken = {
-  access_token: 'access',
-  refresh_token: 'refresh'
+  accessToken: 'access',
+  refreshToken: 'refresh'
 }
 
 export const mockRefreshedAuthToken: UserAuthToken = {
-  access_token: 'access access',
-  refresh_token: 'refresh'
+  accessToken: 'access access',
+  refreshToken: 'refresh'
 }
 
 export const mockAuthHeader = {
@@ -28,17 +28,17 @@ export const mockAuthHeader = {
 }
 export const mockUserInfo: UserInfo = {
   id: '1',
-  firstname: 'user1',
-  lastname: 'lastname1',
+  firstName: 'user1',
+  lastName: 'lastname1',
   email: 'user1@gmail.com',
-  role: 'user',
+  role: 0,
   avatar: 'img'
 }
 
 export const mockUserRes = {
   id: '1',
-  fisrstname: 'user1',
-  lastnamt: 'lastname1',
+  fisrstName: 'user1',
+  lastName: 'lastname1',
   email: 'user1@gmail.com',
   role: 'customer',
   avatar: 'img',

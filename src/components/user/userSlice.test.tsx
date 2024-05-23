@@ -99,7 +99,7 @@ describe('userSlice', () => {
   test('getRefreshToken API on success should update state', async () => {
     await store.dispatch(
       authApi.endpoints.getRefreshToken.initiate({
-        refreshToken: mockAuthToken.refresh_token
+        refreshToken: mockAuthToken.refreshToken
       })
     )
     const state = store.getState()

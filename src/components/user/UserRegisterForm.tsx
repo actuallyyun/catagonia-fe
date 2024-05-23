@@ -9,16 +9,15 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 
 import { Feedback, UserTextInput } from '../../misc/type'
 import { useRegisterMutation } from '../../services/auth'
-import { useUploadFileMutation } from '../../services/file'
 
 const defaultImage = 'https://picsum.photos/id/237/200/200'
 
 const SignupSchema = Yup.object().shape({
-  firstname: Yup.string()
+  firstName: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  lastname: Yup.string()
+  lastName: Yup.string()
     .min(2, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
@@ -82,28 +81,28 @@ const UserRegisterForm = ({ feedback }: { feedback: Feedback }) => {
     <div className='grid gap-8'>
       <h1>Create an Account.</h1>
       <form onSubmit={handleSubmit(onSubmit)} className='grid'>
-        <Label htmlFor='firstname' value='Firstname' />
+        <Label htmlFor='firstName' value='Firstname' />
         <TextInput
-          {...register('firstname')}
+          {...register('firstName')}
           placeholder='Firstname'
-          color={errors.firstname ? 'failure' : ''}
+          color={errors.firstName ? 'failure' : ''}
           helperText={
             <>
-              {errors.firstname && (
-                <span className='font-medium'>{errors.firstname.message}</span>
+              {errors.firstName && (
+                <span className='font-medium'>{errors.firstName.message}</span>
               )}
             </>
           }
         />
         <Label htmlFor='lastname' value='Lastname' />
         <TextInput
-          {...register('lastname')}
+          {...register('lastName')}
           placeholder='Lastname'
-          color={errors.lastname ? 'failure' : ''}
+          color={errors.lastName ? 'failure' : ''}
           helperText={
             <>
-              {errors.lastname && (
-                <span className='font-medium'>{errors.lastname.message}</span>
+              {errors.lastName && (
+                <span className='font-medium'>{errors.lastName.message}</span>
               )}
             </>
           }

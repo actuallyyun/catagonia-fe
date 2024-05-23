@@ -33,7 +33,7 @@ function App() {
   // refresh token.
   useEffect(() => {
     if (!isLoggedIn && !user && token) {
-      refreshToken({ refreshToken: token?.refresh_token ?? '' })
+      refreshToken({ refreshToken: token?.refreshToken ?? '' })
     }
   }, [])
 

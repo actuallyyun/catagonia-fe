@@ -60,7 +60,7 @@ export function ReviewCard({ review }: ReviewCardProp) {
       </div>
       <div className='grid-col-auto gap-4'>
         {review.user && (
-          <p className='text-bold'>{`${review.user.firstname}  ${review.user.lastname}`}</p>
+          <p className='text-bold'>{`${review.user.firstName}  ${review.user.lastName}`}</p>
         )}
         <p>Rating:{review.rating}</p>
         <p className='text-md'>{review.content}</p>

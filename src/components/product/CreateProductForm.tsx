@@ -4,15 +4,16 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'flowbite-react'
 import { useState } from 'react'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 
 import { CreateProductInput, Feedback } from '../../misc/type'
 import {
   useGetCategoriesQuery,
   useCreateProductMutation
 } from '../../services/product'
-import { useUploadFileMutation } from '../../services/file'
 import { useSelector } from 'react-redux'
 import { selectAllCategories } from '../category/categorySlice'
+import { storage } from '../../services/firebase'
 
 const defaultImage = ['https://picsum.photos/id/237/400/600']
 
@@ -27,7 +28,7 @@ const createProductSchema = Yup.object().shape({
     .min(6, 'Must be at least 6 characters')
     .max(200)
     .required('Required'),
-  categoryId: Yup.number().min(1).required()
+  categoryId: Yup.string().required()
 })
 
 export default function CreateProductForm({
@@ -43,9 +44,15 @@ export default function CreateProductForm({
     const uploadedFile = event.target.files ? event.target.files[0] : null
     setFile((prev) => (prev = uploadedFile))
   }
+
+  const uploadFileCallBack = async (file: File): Promise<string> => {
+    const postImgRef = ref(storage, `products/{file.name}`)
+    const snapshot = await uploadBytesResumable(postImgRef, file)
+    return await getDownloadURL(snapshot.ref)
+  }
+
   const navigate = useNavigate()
   const [creatProduct] = useCreateProductMutation()
-  const [uploadFile] = useUploadFileMutation()
 
   const {
     register,
@@ -60,8 +67,8 @@ export default function CreateProductForm({
 
       if (file) {
         try {
-          const fileResponse = await uploadFile(file).unwrap()
-          images.push(fileResponse.location)
+          const imageUrl = await uploadFileCallBack(file)
+          images.push(imageUrl)
           feedback.handleSuccess('Image uploaded successfully.')
         } catch (error) {
           feedback.handleError('File upload failed. We will find you a image.')

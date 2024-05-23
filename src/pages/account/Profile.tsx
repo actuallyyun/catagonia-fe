@@ -31,7 +31,7 @@ export default function Profile({ feedback }: { feedback: Feedback }) {
                 <p className='text-gray-400'>
                   <strong>Name</strong>
                 </p>
-                <p>{`${currentUser.firstname} ${currentUser.lastname}`}</p>
+                <p>{`${currentUser.firstName} ${currentUser.lastName}`}</p>
                 <p className='text-gray-400'>
                   <strong>Email</strong>
                 </p>
@@ -46,9 +46,7 @@ export default function Profile({ feedback }: { feedback: Feedback }) {
               </div>
             )}
           </div>
-          {currentUser.role === 'admin' && (
-            <CreateProductForm feedback={feedback} />
-          )}
+          {currentUser.role === 1 && <CreateProductForm feedback={feedback} />}
         </div>
       </div>
     </div>

@@ -43,7 +43,7 @@ export type CreateProductInput = {
   title: string
   price: number
   description: string
-  categoryId: number
+  categoryId: string
   inventory: number
 }
 
@@ -52,37 +52,38 @@ export type CreateProductRequest = CreateProductInput & {
 }
 
 export type UserTextInput = {
-  firstname: string
-  lastname: string
+  firstName: string
+  lastName: string
   email: string
   password: string
 }
 
 export type UserRegister = {
-  firstname: string
-  lastname: string
+  firstName: string
+  lastName: string
   email: string
   password: string
   avatar: string
 }
 
 export type User = UserRegister & {
-  role: 'user' | 'admin'
+  role: 0 | 1
   id: string
 }
 
+// 0 is user, 1 admin.temperary solution because be responds with 0/1 instead of 'user'/'admin'
 export type UserInfo = {
   id: string
-  role: 'user' | 'admin'
-  firstname: string
-  lastname: string
+  role: 1 | 0
+  firstName: string
+  lastName: string
   email: string
   avatar: string
 }
 
 export type UserAuthToken = {
-  access_token: string
-  refresh_token: string
+  accessToken: string
+  refreshToken: string
 }
 
 export type UserLoginRequest = {
@@ -162,8 +163,8 @@ export type OrderItem = {
 export type Address = {
   id: string
   userId: string
-  firstname: string
-  lastname: string
+  firstName: string
+  lastName: string
   addressLine: string
   postalCode: string
   country: string

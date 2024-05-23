@@ -16,7 +16,7 @@ const authApi = createApi({
     baseUrl: API_URL,
     prepareHeaders: (headers, { getState }) => {
       // By default, if we have a token in the store, let's use that for authenticated requests
-      const token = (getState() as AppState).user.token?.access_token
+      const token = (getState() as AppState).user.token?.accessToken
       if (token) {
         headers.set('Authorization', `Bearer ${token}`)
       }
@@ -45,12 +45,13 @@ const authApi = createApi({
     getUser: builder.query<UserInfo, void>({
       query: () => ({ url: '/users/profile' }),
       transformResponse: (response: User) => {
-        const { id, role, firstname, lastname, email, avatar } = response
+        console.log({ response })
+        const { id, role, firstName, lastName, email, avatar } = response
         return {
           id,
           role,
-          firstname,
-          lastname,
+          firstName,
+          lastName,
           email,
           avatar
         }

@@ -122,7 +122,7 @@ describe('creatProduct', () => {
       price: 10,
       inventory: 100,
       description: 'A description',
-      categoryId: 1,
+      categoryId: '1',
       images: ['https://placeimg.com/640/480/any']
     }
     const payload = await store

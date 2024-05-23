@@ -4,6 +4,8 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
 import { Label, TextInput, Button } from 'flowbite-react'
 import { useState } from 'react'
+import { storage } from '../../services/firebase'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 
 import { Feedback, UserTextInput } from '../../misc/type'
 import { useRegisterMutation } from '../../services/auth'
@@ -31,12 +33,17 @@ const UserRegisterForm = ({ feedback }: { feedback: Feedback }) => {
   const nagivate = useNavigate()
   const [addUser] = useRegisterMutation()
   const { handleError, handleSuccess } = feedback
-  const [uploadFile] = useUploadFileMutation()
   const [file, setFile] = useState<File | null>(null)
 
   const handleUploadFile = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFile = event.target.files ? event.target.files[0] : null
     setFile((prev) => (prev = uploadedFile))
+  }
+
+  const uploadFileCallBack = async (file: File): Promise<string> => {
+    const postImgRef = ref(storage, `users/{file.name}`)
+    const snapshot = await uploadBytesResumable(postImgRef, file)
+    return await getDownloadURL(snapshot.ref)
   }
 
   const {
@@ -50,8 +57,8 @@ const UserRegisterForm = ({ feedback }: { feedback: Feedback }) => {
     let avatar: string = ''
     if (file) {
       try {
-        const fileResponse = await uploadFile(file).unwrap()
-        avatar = fileResponse.location
+        const imageUrl = await uploadFileCallBack(file)
+        avatar = imageUrl
         feedback.handleSuccess('Image uploaded successfully.')
       } catch (error) {
         feedback.handleError('File upload failed. We will find you a image.')

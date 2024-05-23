@@ -15,6 +15,7 @@
     "@types/react-dom": "^18.2.19",
     "@types/react-redux": "^7.1.33",
     "axios": "^1.6.7",
+    "firebase": "^10.12.1",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.2",
     "formik": "^2.4.5",

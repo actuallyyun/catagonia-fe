@@ -171,6 +171,16 @@ export type Address = {
   phoneNumber: string
 }
 
+export type AddressCreateDto = {
+  firstName: string
+  lastName: string
+  addressLine: string
+  postalCode: string
+  country: string
+  phoneNumber: string
+}
+
+
 export interface OrderReadDto extends TimeStamp {
   id: string
   userId: string

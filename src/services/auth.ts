@@ -6,7 +6,9 @@ import {
   UserInfo,
   UserAuthToken,
   UserRegister,
-  UserLoginRequest
+  UserLoginRequest,
+  Address,
+  AddressCreateDto
 } from '../misc/type'
 import { API_URL } from '../misc/utils'
 
@@ -63,15 +65,35 @@ const authApi = createApi({
         method: 'POST',
         body: refreshToken
       })
+    }),
+    getUserAddresses: builder.query<Address[], void>({
+      query: () => ({ url: '/users/addresses' }),
+      transformResponse: (response: Address[]) => {
+        console.log({ response })
+        return response
+      }
+    }),
+    createAddress: builder.mutation<Address, AddressCreateDto>({
+      query: (credentials) => ({
+        url: '/addresses',
+        method: 'POST',
+        body: credentials
+      }),
+      transformResponse: (response: Address) => {
+        console.log({ response })
+        return response
+      }
     })
   })
 })
 
- export const {
-   useRegisterMutation,
-   useLoginMutation,
-   useGetUserQuery,
-   useGetRefreshTokenMutation
- } = authApi
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useGetUserQuery,
+  useGetRefreshTokenMutation,
+  useGetUserAddressesQuery,
+  useCreateAddressMutation
+} = authApi
 
  export default authApi

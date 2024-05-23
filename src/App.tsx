@@ -18,6 +18,7 @@ import Products from './pages/products/Products'
 import { useTheme } from './services/ThemeContext'
 import { isFetchBaseQueryError, isErrorWithMessage } from './services/helpers'
 import Footer from './components/footer/Footer'
+import Checkout from './pages/checkout/Checkout'
 
 function App() {
   const { enqueueSnackbar } = useSnackbar()
@@ -95,6 +96,10 @@ function App() {
                 }
               ></Route>
               <Route path='/cart' element={<Cart />}></Route>
+              <Route
+                path='/checkout'
+                element={<Checkout feedback={feedback} />}
+              ></Route>
             </Routes>
             <ScrollToTop smooth />
           </div>

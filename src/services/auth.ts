@@ -13,7 +13,8 @@ import {
   OrderCreateDto,
   ReviewReadDto,
   ReviewCreateDto,
-  ReviewUpdateDto
+  ReviewUpdateDto,
+  UserUpdateInput
 } from '../misc/type'
 import { API_URL } from '../misc/utils'
 
@@ -52,7 +53,6 @@ const authApi = createApi({
     getUser: builder.query<UserInfo, void>({
       query: () => ({ url: '/users/profile' }),
       transformResponse: (response: User) => {
-        console.log({ response })
         const { id, role, firstName, lastName, email, avatar } = response
         return {
           id,
@@ -62,6 +62,16 @@ const authApi = createApi({
           email,
           avatar
         }
+      }
+    }),
+    updateUser: builder.mutation<boolean, UserUpdateInput>({
+      query: (request) => ({
+        url: '/users/profile',
+        method: 'PUT',
+        body: request
+      }),
+      transformResponse: (response: boolean) => {
+        return response
       }
     }),
     getRefreshToken: builder.mutation<UserAuthToken, { refreshToken: string }>({
@@ -152,7 +162,8 @@ export const {
   useGetUserOrdersQuery,
   useCreateReviewMutation,
   useUpdateReviewMutation,
-  useDeleteReviewMutation
+  useDeleteReviewMutation,
+  useUpdateUserMutation
 } = authApi
 
  export default authApi

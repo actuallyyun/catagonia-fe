@@ -1,15 +1,23 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { Button } from 'flowbite-react'
+import { useState } from 'react'
 
 import { logOut, selectCurrentUser } from '../../components/user/userSlice'
 import CreateProductForm from '../../components/product/CreateProductForm'
-import { Feedback, OrderReadDto } from '../../misc/type'
+import {
+  Feedback,
+  OrderReadDto,
+  UserInfo,
+  UserUpdateInput
+} from '../../misc/type'
 import { useNavigate } from 'react-router-dom'
 import { useGetUserOrdersQuery } from '../../services/auth'
+import { UpdateProfileForm } from '../../components/user/UserUpdateForm'
 
 export default function Profile({ feedback }: { feedback: Feedback }) {
   const currentUser = useSelector(selectCurrentUser)
   const { data, error, isLoading } = useGetUserOrdersQuery()
+  const [showUpdateForm, setShowUpdateForm] = useState(false)
 
   const dispatch = useDispatch()
   var redirect = useNavigate()
@@ -27,31 +35,26 @@ export default function Profile({ feedback }: { feedback: Feedback }) {
   return (
     <div className='w-11/12 m-auto'>
       <div className='grid grid-cols-2 justify-center gap-4 pt-4'>
-        <div>
+        <div className=''>
           <h3 className='text-center'>Account</h3>
-          <div className='grid gap-8'>
-            <div className='bg-gray-200 rounded-lg py-12 px-8 grid gap-4'>
-              <h4 className='dark:text-gray-800'>Profile</h4>
-              {currentUser && (
-                <div className='grid gap-4 '>
-                  <p className='text-gray-400'>
-                    <strong>Name</strong>
-                  </p>
-                  <p>{`${currentUser.firstName} ${currentUser.lastName}`}</p>
-                  <p className='text-gray-400'>
-                    <strong>Email</strong>
-                  </p>
-                  <p>{currentUser.email}</p>
-                  <p className='text-gray-400'>
-                    <strong>Password</strong>
-                  </p>
-                  <p>********</p>
-                  <Button onClick={handleLogOut} color='dark' size='lg' pill>
-                    Log out
-                  </Button>
-                </div>
-              )}
-            </div>
+          <div className='py-4'>
+            {!showUpdateForm && (
+              <ProfileCard
+                currentUser={currentUser}
+                handleLogOut={handleLogOut}
+                setShowUpdateForm={setShowUpdateForm}
+              />
+            )}
+          </div>
+          <div className='py-4'>
+            {showUpdateForm && (
+              <UpdateProfileForm
+                feedback={feedback}
+                currentUser={currentUser}
+              />
+            )}
+          </div>
+          <div className='py-4'>
             {currentUser.role === 1 && (
               <CreateProductForm feedback={feedback} />
             )}
@@ -75,6 +78,56 @@ export default function Profile({ feedback }: { feedback: Feedback }) {
     </div>
   )
 }
+
+export type ProfileCardProps = {
+  currentUser: UserInfo
+  handleLogOut: () => void
+  setShowUpdateForm: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export function ProfileCard({
+  currentUser,
+  handleLogOut,
+  setShowUpdateForm
+}: ProfileCardProps) {
+  return (
+    <div className='grid gap-8'>
+      <div className='bg-gray-200 rounded-lg py-12 px-8 grid gap-4'>
+        <h4 className='dark:text-gray-800'>Profile</h4>
+        {currentUser && (
+          <div className='grid gap-4 '>
+            <p className='text-gray-400'>
+              <strong>Name</strong>
+            </p>
+            <p>{`${currentUser.firstName} ${currentUser.lastName}`}</p>
+            <p className='text-gray-400'>
+              <strong>Email</strong>
+            </p>
+            <p>{currentUser.email}</p>
+            <p className='text-gray-400'>
+              <strong>Password</strong>
+            </p>
+            <p>********</p>
+            <div className='grid gap-8 my-8'>
+              <Button onClick={handleLogOut} color='dark' size='lg' pill>
+                Log out
+              </Button>
+              <Button
+                onClick={() => setShowUpdateForm(true)}
+                color='dark'
+                size='lg'
+                pill
+              >
+                Update
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 
 export type OrderDetailCardProps = {
   order: OrderReadDto

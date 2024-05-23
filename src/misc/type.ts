@@ -58,6 +58,14 @@ export type UserTextInput = {
   password: string
 }
 
+export interface UserUpdateInput {
+  firstName: string
+  lastName: string
+  password: string
+  avatar: string
+}
+
+
 export type UserRegister = {
   firstName: string
   lastName: string

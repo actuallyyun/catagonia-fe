@@ -180,13 +180,21 @@ export type AddressCreateDto = {
   phoneNumber: string
 }
 
-
+export interface OrderItemCreateDto {
+  productId: string
+  quantity: number
+}
 export interface OrderReadDto extends TimeStamp {
   id: string
   userId: string
   status: OrderStatus
-  items: OrderItem[]
+  orderItems: OrderItem[]
   address: Address
+}
+
+export interface OrderCreateDto {
+  addressId: string
+  orderItemCreateDto: OrderItemCreateDto[]
 }
 
 export interface ReviewReadDto extends BaseEntity, TimeStamp {

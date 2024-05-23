@@ -8,7 +8,9 @@ import {
   UserRegister,
   UserLoginRequest,
   Address,
-  AddressCreateDto
+  AddressCreateDto,
+  OrderReadDto,
+  OrderCreateDto
 } from '../misc/type'
 import { API_URL } from '../misc/utils'
 
@@ -83,6 +85,17 @@ const authApi = createApi({
         console.log({ response })
         return response
       }
+    }),
+    createOrder: builder.mutation<OrderReadDto, OrderCreateDto>({
+      query: (credentials) => ({
+        url: '/orders',
+        method: 'POST',
+        body: credentials
+      }),
+      transformResponse: (response: OrderReadDto) => {
+        console.log({ response })
+        return response
+      }
     })
   })
 })
@@ -93,7 +106,8 @@ export const {
   useGetUserQuery,
   useGetRefreshTokenMutation,
   useGetUserAddressesQuery,
-  useCreateAddressMutation
+  useCreateAddressMutation,
+  useCreateOrderMutation
 } = authApi
 
  export default authApi

@@ -1,43 +1,171 @@
 import { useSelector } from 'react-redux'
 import { Table } from 'flowbite-react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import { selectAllItems } from '../../components/cart/cartSlice'
-import { CartItem, Address } from '../../misc/type'
-import { useGetUserAddressesQuery } from '../../services/auth'
+import { CartItem, Address, OrderCreateDto } from '../../misc/type'
+import {
+  useGetUserAddressesQuery,
+  useCreateOrderMutation
+} from '../../services/auth'
 import CreateAddressForm from '../../components/checkout/CreateAddressForm'
 import { Feedback } from '../../misc/type'
+import { Button } from 'flowbite-react'
 
 export type OrderTableType = {
   order: CartItem[]
 }
 
-export type AddressCarrdType = {
+export type AddressCardType = {
   address: Address
+  setOrderAddress: React.Dispatch<React.SetStateAction<Address | null>>
+  setShowOrderButton: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function Checkout({ feedback }: { feedback: Feedback }) {
   const items = useSelector(selectAllItems)
   const { data, error } = useGetUserAddressesQuery()
-  console.log({ data })
+  const [showCreateForm, setShowCreateForm] = useState(false)
+  const [orderAddress, setOrderAddress] = useState<Address | null>(null)
+  const [showOrderButton, setShowOrderButton] = useState(false)
+
+  const handleShowCreate = () => {
+    setShowCreateForm((prev) => (prev = !prev))
+  }
+  const [createOrder] = useCreateOrderMutation()
+  const nagivate = useNavigate()
+
+  const handleCreateOrder = async () => {
+    const order: OrderCreateDto = {
+      addressId: String(orderAddress?.id),
+      orderItemCreateDto: items
+    }
+
+    try {
+      const payload = await createOrder(order).unwrap()
+      if (payload) {
+        feedback.handleSuccess('Thank you for creating an order!')
+        setTimeout(() => nagivate('/account'), 2000)
+      } else {
+        feedback.handleError('unkown error')
+      }
+    } catch (err) {
+      feedback.handleError(err)
+    }
+  }
 
   return (
     <div className='grid gap-16'>
       <h3>Checkout</h3>
       <OrderTable order={items} />
+      <div className={showOrderButton ? 'grid' : 'hidden'}>
+        <div className='grid gap-4 mb-8'>
+          <h4>Shipping Address</h4>
+          <p>
+            Recepient:{orderAddress?.firstName} {orderAddress?.lastName}
+          </p>
+          <p>
+            To:{orderAddress?.addressLine} {orderAddress?.country}
+          </p>
+          <p>Postal Code:{orderAddress?.postalCode}</p>
+          <p>Contact:{orderAddress?.phoneNumber} </p>
+        </div>
+        <Button color='dark' size='md' pill onClick={handleCreateOrder}>
+          Place Order
+        </Button>
+      </div>
       {data?.length === 0 && (
         <div className='grid gap-4'>
           <h3>You don't have addresses yet.</h3>
-          <CreateAddressForm feedback={feedback} />
         </div>
       )}
+      <div className={showOrderButton ? 'hidden' : 'grid'}>
+        {data &&
+          data.length > 0 &&
+          data.map((address: Address) => {
+            return (
+              <div key={address.id} className='grid grid-cols-2'>
+                <AddressCard
+                  address={address}
+                  setOrderAddress={setOrderAddress}
+                  setShowOrderButton={setShowOrderButton}
+                />
+              </div>
+            )
+          })}
+      </div>
+      <Button
+        color='light'
+        size='md'
+        pill
+        onClick={handleShowCreate}
+        className={showOrderButton ? 'hidden' : 'grid'}
+      >
+        Create A New Address
+      </Button>
+      <div className={showCreateForm ? 'grid' : 'hidden'}>
+        <CreateAddressForm feedback={feedback} />
+      </div>
     </div>
   )
 }
 
-export function AddressCard({ address }: AddressCarrdType) {
+export function AddressCard({
+  address,
+  setOrderAddress,
+  setShowOrderButton
+}: AddressCardType) {
+  const handleEdit = () => {
+    console.log('edit address')
+  }
+  const handleSetAddress = (address: Address) => {
+    setOrderAddress(address)
+    setShowOrderButton((prev) => (prev = !prev))
+  }
+
   return (
     <>
-      <p>address </p>
+      <div className='grid gap-8'>
+        <div className='bg-gray-200 rounded-lg py-12 px-8 grid gap-4'>
+          <h4 className='dark:text-gray-800'>Address</h4>
+          {address && (
+            <div className='grid gap-4 '>
+              <p className='text-gray-400'>
+                <strong>FirstName</strong>
+              </p>
+              <p>{`${address.firstName} ${address.lastName}`}</p>
+              <p className='text-gray-400'>
+                <strong>Address Line</strong>
+              </p>
+              <p>{address.addressLine}</p>
+              <p className='text-gray-400'>
+                <strong>Postal Code</strong>
+              </p>
+              <p>{address.postalCode}</p>
+              <p className='text-gray-400'>
+                <strong>Country</strong>
+              </p>
+              <p>{address.country}</p>
+              <p className='text-gray-400'>
+                <strong>Phone Number</strong>
+              </p>
+              <p>{address.phoneNumber}</p>
+              <Button
+                onClick={() => handleSetAddress(address)}
+                color='success'
+                size='md'
+                pill
+              >
+                Use This Address
+              </Button>
+              <Button onClick={() => handleEdit()} color='dark' size='md' pill>
+                Edit
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
     </>
   )
 }

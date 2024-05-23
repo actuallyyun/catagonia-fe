@@ -12,7 +12,8 @@ import {
   OrderReadDto,
   OrderCreateDto,
   ReviewReadDto,
-  ReviewCreateDto
+  ReviewCreateDto,
+  ReviewUpdateDto
 } from '../misc/type'
 import { API_URL } from '../misc/utils'
 
@@ -116,6 +117,16 @@ const authApi = createApi({
         console.log({ response })
         return response
       }
+    }),
+    updateReview: builder.mutation<boolean, ReviewUpdateDto>({
+      query: (request) => ({
+        url: `/reviews/${request.reviewId}`,
+        method: 'PUT',
+        body: request
+      }),
+      transformResponse: (response: boolean) => {
+        return response
+      }
     })
   })
 })
@@ -129,7 +140,8 @@ export const {
   useCreateAddressMutation,
   useCreateOrderMutation,
   useGetUserOrdersQuery,
-  useCreateReviewMutation
+  useCreateReviewMutation,
+  useUpdateReviewMutation
 } = authApi
 
  export default authApi

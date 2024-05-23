@@ -218,3 +218,8 @@ export interface ReviewUserInput {
   content: string
   rating: number
 }
+
+
+export interface ReviewUpdateDto extends ReviewUserInput {
+  reviewId: string
+}

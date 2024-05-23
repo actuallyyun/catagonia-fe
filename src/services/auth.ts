@@ -127,6 +127,16 @@ const authApi = createApi({
       transformResponse: (response: boolean) => {
         return response
       }
+    }),
+    deleteReview: builder.mutation<boolean, { id: string }>({
+      query: (request) => ({
+        url: `/reviews/${request.id}`,
+        method: 'DELETE'
+      }),
+      transformResponse: (response: boolean) => {
+        console.log({ response })
+        return response
+      }
     })
   })
 })
@@ -141,7 +151,8 @@ export const {
   useCreateOrderMutation,
   useGetUserOrdersQuery,
   useCreateReviewMutation,
-  useUpdateReviewMutation
+  useUpdateReviewMutation,
+  useDeleteReviewMutation
 } = authApi
 
  export default authApi

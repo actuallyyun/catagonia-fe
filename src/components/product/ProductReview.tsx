@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { Feedback, UserInfo } from '../../misc/type'
 import { UpdateReviewForm } from './UpdateProductReviewForm'
 import { selectCurrentUser } from '../../components/user/userSlice'
+import { useDeleteReviewMutation } from '../../services/auth'
 
 export type ProductReviewProp = {
   reviews: ReviewReadDto[]
@@ -85,6 +86,23 @@ export function ReviewCard({ review, user, feedback }: ReviewCardProp) {
   const isOwnerOrAdmin =
     user && (user.role === 1 || review?.user.id === user.id)
 
+  const [deleteReview] = useDeleteReviewMutation()
+  const handleDelete = async (id: string) => {
+    try {
+      const payload = await deleteReview({
+        id: id
+      })
+      if (payload) {
+        feedback.handleSuccess('Delete review successfully.')
+        setTimeout(() => window.location.reload(), 2000)
+      } else {
+        feedback.handleError('unkown error')
+      }
+    } catch (err) {
+      feedback.handleError(err)
+    }
+  }
+
   return (
     <div>
       {!showUpdateForm && (
@@ -110,7 +128,9 @@ export function ReviewCard({ review, user, feedback }: ReviewCardProp) {
               <Button color='gray' onClick={() => setShowUpdateForm(true)}>
                 Update
               </Button>
-              <Button color='dark'>Delete</Button>
+              <Button color='dark' onClick={() => handleDelete(review.id)}>
+                Delete
+              </Button>
             </div>
           </div>
         </>

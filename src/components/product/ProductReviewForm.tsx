@@ -49,7 +49,6 @@ export default function CreateReviewForm({
 
       if (payload) {
         feedback.handleSuccess('Review created successfully.')
-        console.log({ payload })
         setTimeout(() => window.location.reload(), 2000)
       } else {
         feedback.handleError('unkown error')

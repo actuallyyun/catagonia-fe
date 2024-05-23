@@ -26,7 +26,7 @@ export function UpdateReviewForm({ review, feedback }: UpdateReviewFormProps) {
         reviewId: review.id
       })
       if (payload) {
-        feedback.handleSuccess('Update product successfully.')
+        feedback.handleSuccess('Update review successfully.')
       } else {
         feedback.handleError('unkown error')
       }

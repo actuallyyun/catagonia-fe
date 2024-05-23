@@ -1,4 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
+import { AppState } from '../app/store'
 import {
   Category,
   Product,
@@ -11,7 +13,19 @@ import { API_URL, constructQueryUrl } from '../misc/utils'
 
 const productApi = createApi({
   reducerPath: 'productApi',
-  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: API_URL,
+    prepareHeaders: (headers, { getState }) => {
+      // By default, if we have a token in the store, let's use that for authenticated requests
+      const token = (getState() as AppState).user.token?.accessToken
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`)
+      }
+      headers.set('Content-Type', 'application/json')
+      return headers
+    }
+  }),
+
   tagTypes: ['Products', 'Product', 'Category', 'Review'],
   endpoints: (builder) => ({
     getAllProducts: builder.query<Product[], QueryParams | null>({

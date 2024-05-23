@@ -3,11 +3,13 @@ import { Button } from 'flowbite-react'
 
 import { logOut, selectCurrentUser } from '../../components/user/userSlice'
 import CreateProductForm from '../../components/product/CreateProductForm'
-import { Feedback } from '../../misc/type'
+import { Feedback, OrderReadDto } from '../../misc/type'
 import { useNavigate } from 'react-router-dom'
+import { useGetUserOrdersQuery } from '../../services/auth'
 
 export default function Profile({ feedback }: { feedback: Feedback }) {
   const currentUser = useSelector(selectCurrentUser)
+  const { data, error, isLoading } = useGetUserOrdersQuery()
 
   const dispatch = useDispatch()
   var redirect = useNavigate()
@@ -58,12 +60,53 @@ export default function Profile({ feedback }: { feedback: Feedback }) {
         <div>
           {' '}
           <h3 className='text-center'>Order</h3>
-          <div className='grid gap-8'>
-            <div className='bg-gray-200 rounded-lg py-12 px-8 grid gap-4'>
-              <h4 className='dark:text-gray-800'>order detail</h4>
-            </div>
-          </div>
+          {data?.length === 0 && <p>You don't have any orders.</p>}
+          {data &&
+            data.length > 0 &&
+            data.map((order) => {
+              return (
+                <div>
+                  <OrderDetailCard order={order} />
+                </div>
+              )
+            })}
         </div>
+      </div>
+    </div>
+  )
+}
+
+export type OrderDetailCardProps = {
+  order: OrderReadDto
+}
+
+export function OrderDetailCard({ order }: OrderDetailCardProps) {
+  return (
+    <div className='grid gap-8'>
+      <div className='bg-gray-200 rounded-lg py-12 px-8 grid gap-4'>
+        <h4 className='dark:text-gray-800'>order detail</h4>
+        {order && (
+          <div className='grid gap-4 '>
+            <p className='text-gray-400'>
+              <strong>Product</strong>
+            </p>
+            {order.orderItems.map((item) => {
+              return <p>{`${item.productId} ${item.quantity} ${item.price}`}</p>
+            })}
+            <p className='text-gray-400'>
+              <strong>Status</strong>
+            </p>
+            <p>{order.status}</p>
+            <p className='text-gray-400'>
+              <strong>Shipped To</strong>
+            </p>
+            <p>{order.address.addressLine}</p>
+            <p className='text-gray-400'>
+              <strong>Created At</strong>
+            </p>
+            <p>{order.createdAt}</p>
+          </div>
+        )}
       </div>
     </div>
   )

@@ -75,6 +75,13 @@ const authApi = createApi({
         return response
       }
     }),
+    getUserOrders: builder.query<OrderReadDto[], void>({
+      query: () => ({ url: '/users/orders' }),
+      transformResponse: (response: OrderReadDto[]) => {
+        console.log({ response })
+        return response
+      }
+    }),
     createAddress: builder.mutation<Address, AddressCreateDto>({
       query: (credentials) => ({
         url: '/addresses',
@@ -107,7 +114,8 @@ export const {
   useGetRefreshTokenMutation,
   useGetUserAddressesQuery,
   useCreateAddressMutation,
-  useCreateOrderMutation
+  useCreateOrderMutation,
+  useGetUserOrdersQuery
 } = authApi
 
  export default authApi

@@ -155,6 +155,7 @@ enum OrderStatus {
 
 export type OrderItem = {
   orderId: string
+  productId: string
   product: Product
   quantity: number
   price: number

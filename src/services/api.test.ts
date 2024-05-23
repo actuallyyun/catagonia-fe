@@ -85,7 +85,14 @@ describe('getSingleProduct', () => {
 
 describe('updateProduct', () => {
   test('update product correctly', async () => {
-    const req = { title: 'product1-updated', price: 100, id: '1' }
+    const req = {
+      title: 'product1-updated',
+      price: 100,
+      id: '1',
+      inventory: 2,
+      categoryId: '2',
+      description: 'new des'
+    }
     const payload = await store
       .dispatch(productApi.endpoints.updateProduct.initiate(req))
       .unwrap()
@@ -93,7 +100,14 @@ describe('updateProduct', () => {
     expect(payload.price).toEqual(req.price)
   })
   test('product not found is not updated', async () => {
-    const req = { title: 'product1-updated', price: 100, id: '100' }
+    const req = {
+      title: 'product1-updated',
+      price: 100,
+      id: '100',
+      inventory: 2,
+      categoryId: '2',
+      description: 'new des'
+    }
     const payload = await store.dispatch(
       productApi.endpoints.updateProduct.initiate(req)
     )

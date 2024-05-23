@@ -1,18 +1,18 @@
 import { Product, ReviewReadDto } from '../../misc/type'
-import { Card } from 'flowbite-react'
-import { Link } from 'react-router-dom'
-import { Label, TextInput, Button } from 'flowbite-react'
+import { Button } from 'flowbite-react'
+import { Rating } from 'flowbite-react'
 
 export type ProductReviewProp = {
   reviews: ReviewReadDto[]
+  product: Product
 }
 
-export default function ProductReview({ reviews }: ProductReviewProp) {
+export default function ProductReview({ reviews, product }: ProductReviewProp) {
   console.log({ reviews })
 
   return (
     <div>
-      <div className='grid md-grid-col-3'>
+      <div className='grid gap-6'>
         <h2>Reviews</h2>
         {reviews.length === 0 && (
           <div>
@@ -24,9 +24,12 @@ export default function ProductReview({ reviews }: ProductReviewProp) {
         )}
 
         {reviews.length > 0 && (
-          <div>
-            <h3>Rating </h3>
-            <p>Based on xx reviews</p>
+          <div className='grid gap-6'>
+            <div className='flex flex-row gap-6'>
+              <h3>Rating:</h3>
+              <ProductRating rating={product.rating} size='lg' />
+            </div>
+            <p>Based on {reviews.length} reviews</p>
             <div>
               <Button type='submit' gradientDuoTone='purpleToPink'>
                 Write A Reivew
@@ -54,18 +57,41 @@ export type ReviewCardProp = {
 }
 export function ReviewCard({ review }: ReviewCardProp) {
   return (
-    <div className='grid grid-cols-12 gap-8'>
-      <div className='grid-col-2'>
+    <div className='grid grid-cols-12 gap-8 divide-y divide-dashed my-6'>
+      <div className='col-span-2'>
         {review.user && <img src={review.user.avatar} />}
       </div>
-      <div className='grid-col-auto gap-4'>
+      <div className='col-start-3 col-span-8 gap-8 grid'>
         {review.user && (
-          <p className='text-bold'>{`${review.user.firstName}  ${review.user.lastName}`}</p>
+          <p className='font-bold'>{`${review.user.firstName}  ${review.user.lastName}`}</p>
         )}
-        <p>Rating:{review.rating}</p>
+        <div className='flex flex-row gap-4'>
+          <p className=''>Rating:</p>
+          <ProductRating size='sm' rating={review.rating} />
+        </div>
         <p className='text-md'>{review.content}</p>
-        <p className='text-muted'>{review.createdAt}</p>
+        <p className='text-gray-500'>Reviewed on:{review.createdAt}</p>
       </div>
     </div>
+  )
+}
+
+export type ProductRatingProps = {
+  rating: number
+  size: 'lg' | 'md' | 'sm'
+}
+
+export function ProductRating({ rating, size }: ProductRatingProps) {
+  const star = new Array(rating).fill(0)
+  const filled = new Array(5 - rating).fill(0)
+  return (
+    <Rating size={size}>
+      {star.map((s) => (
+        <Rating.Star />
+      ))}
+      {filled.map((f) => (
+        <Rating.Star filled={false} />
+      ))}
+    </Rating>
   )
 }

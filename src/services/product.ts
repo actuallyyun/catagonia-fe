@@ -46,10 +46,7 @@ const productApi = createApi({
       query: (request) => ({
         url: `/products/${request.id}`,
         method: 'PUT',
-        body: {
-          title: request.title,
-          price: request.price
-        }
+        body: request
       }),
       invalidatesTags: (result, error, arg) => [{ type: 'Product', id: arg.id }]
     }),
@@ -82,8 +79,7 @@ const productApi = createApi({
 
     getCategories: builder.query<Category[], void>({
       query: () => ({ url: '/categories', method: 'GET' }),
-      transformResponse: (response: Category[], meta, arg) =>
-        response.slice(0, 5)
+      transformResponse: (response: Category[], meta, arg) => response
     }),
     getProductsByCategory: builder.query({
       query: ({

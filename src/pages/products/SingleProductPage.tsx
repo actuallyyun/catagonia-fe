@@ -2,6 +2,7 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 
+
 import {
   useGetReviewsByProductQuery,
   useGetSingleProductQuery
@@ -74,9 +75,11 @@ export default function SingleProductPage({
           <RemoveProduct id={data.id} feedback={feedback} />
         )}
       </div>
-      <div>
+      <div className='py-12 grid gap-8'>
         {' '}
-        {reviewData.data && <ProductReview reviews={reviewData.data} />}
+        {reviewData.data && data && (
+          <ProductReview reviews={reviewData.data} product={data} />
+        )}
       </div>
     </div>
   )

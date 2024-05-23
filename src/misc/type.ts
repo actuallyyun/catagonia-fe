@@ -103,8 +103,12 @@ export type Cart = {
 
 export type UpdateProductInput = {
   title: string
+  description: string
   price: number
+  categoryId: string
+  inventory: number
 }
+
 
 export type UpdateProductRequest = UpdateProductInput & { id: string }
 

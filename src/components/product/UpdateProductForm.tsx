@@ -3,7 +3,10 @@ import { useSelector } from 'react-redux'
 import { Button } from 'flowbite-react'
 
 import { Feedback, Product, UpdateProductInput } from '../../misc/type'
-import { useUpdateProductMutation } from '../../services/product'
+import {
+  useUpdateProductMutation,
+  useGetCategoriesQuery
+} from '../../services/product'
 import { isAdmin } from '../user/userSlice'
 
 type UpdateProductFormProp = {
@@ -19,10 +22,16 @@ export default function UpdateProductForm({
   const { register, handleSubmit } = useForm<UpdateProductInput>({
     defaultValues: {
       title: product.title,
-      price: product.price
+      description: product.description,
+      price: product.price,
+      categoryId: product.category?.id,
+      inventory: product.inventory
     }
   })
   const [updateProduct] = useUpdateProductMutation()
+  const { data, error } = useGetCategoriesQuery()
+
+  const categories = data
 
   const onSubmit = async (productInput: UpdateProductInput) => {
     try {
@@ -51,8 +60,31 @@ export default function UpdateProductForm({
               <input {...register('title')} />
             </div>
             <div className='flex gap-4 items-center'>
+              <label>Description</label>
+              <input {...register('title')} />
+            </div>
+            <div className='flex gap-4 items-center'>
               <label>Price</label>
               <input {...register('price')} type='number' />
+            </div>
+            <div>
+              <label>Inventory</label>
+              <input {...register('inventory')} type='number' />
+            </div>
+            <div>
+              <label htmlFor='categoryId' className='dark:text-gray-800'>
+                Choose a category
+              </label>
+              <select {...register('categoryId')}>
+                {categories &&
+                  categories.map((cat) => {
+                    return (
+                      <option value={cat.id} key={cat.id}>
+                        {cat.name}
+                      </option>
+                    )
+                  })}
+              </select>
             </div>
             <Button type='submit' color='success' pill>
               Update

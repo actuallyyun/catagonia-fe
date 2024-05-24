@@ -73,3 +73,18 @@ export const setParams = (
 
 
 export const API_URL = 'http://localhost:5233/api/v1'
+
+export const parseOrderStatus = (status: number) => {
+  if (status === 0) {
+    return 'created'
+  }
+  if (status === 1) {
+    return 'processing'
+  }
+  if (status === 2) {
+    return 'completed'
+  }
+  if (status === 3) {
+    return 'cancelled'
+  }
+}

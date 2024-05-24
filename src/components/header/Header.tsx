@@ -108,7 +108,9 @@ export default function Nav() {
               Account
             </Dropdown.Item>
             <Dropdown.Divider />
-            <Dropdown.Item onClick={handleLogOut}>Sign out</Dropdown.Item>
+            <Dropdown.Item onClick={handleLogOut}>
+              <button>Sign out</button>
+            </Dropdown.Item>
           </Dropdown>
         )}
         <ThemeToggle />

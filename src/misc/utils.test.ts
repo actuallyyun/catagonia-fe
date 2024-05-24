@@ -52,16 +52,16 @@ describe('contruct query url', () => {
   test('pass one param should return correct string', () => {
     const res = constructQueryUrl([
       {
-        type: 'offset',
+        type: 'startingAfter',
         value: '0'
       }
     ])
-    expect(res).toEqual('offset=0&')
+    expect(res).toEqual('startingAfter=0&')
   })
   test('pass two param should return correct string', () => {
     const res = constructQueryUrl([
       {
-        type: 'offset',
+        type: 'startingAfter',
         value: '0'
       },
       {
@@ -69,7 +69,7 @@ describe('contruct query url', () => {
         value: '12'
       }
     ])
-    expect(res).toEqual('offset=0&limit=12&')
+    expect(res).toEqual('startingAfter=0&limit=12&')
   })
 })
 
@@ -77,14 +77,12 @@ test('url parser', () => {
   expect(
     stringify(
       urlParser(
-        `${API_URL}/products/?price_min=100&price_max=1000&offset=10&limit=10`
+        `${API_URL}/products/?price_min=100&price_max=1000&startingAfter=10&limit=10`
       )
     )
   ).toBe(
     stringify({
-      price_min: '100',
-      price_max: '1000',
-      offset: '10',
+      startingAfter: '10',
       limit: '10'
     })
   )
@@ -92,28 +90,28 @@ test('url parser', () => {
 describe('setParams', () => {
   test('should push param to empty prev', () => {
     const prev: QueryParams = []
-    const param: QueryParam = { type: 'title', value: 'apple' }
+    const param: QueryParam = { type: 'searchKey', value: 'apple' }
     const res = setParams(prev, param)
     expect(res[0]).toMatchObject(param)
   })
   test('should not add duplicated param type', () => {
     const prev: QueryParams = [
-      { type: 'title', value: 'apple' },
-      { type: 'offset', value: '5' }
+      { type: 'searchKey', value: 'apple' },
+      { type: 'startingAfter', value: '5' }
     ]
-    const param: QueryParam = { type: 'title', value: 'orange' }
+    const param: QueryParam = { type: 'searchKey', value: 'orange' }
     const res = setParams(prev, param)
     expect(res[0]).toMatchObject(param)
-    expect(res[1]).toMatchObject({ type: 'offset', value: '5' })
+    expect(res[1]).toMatchObject({ type: 'startingAfter', value: '5' })
   })
   test('should  add new param type', () => {
     const prev: QueryParams = [
-      { type: 'title', value: 'apple' },
-      { type: 'offset', value: '5' }
+      { type: 'searchKey', value: 'apple' },
+      { type: 'startingAfter', value: '5' }
     ]
     const param: QueryParam = { type: 'limit', value: '10' }
     const res = setParams(prev, param)
-    expect(res[1]).toMatchObject({ type: 'offset', value: '5' })
+    expect(res[1]).toMatchObject({ type: 'startingAfter', value: '5' })
     expect(res[2]).toMatchObject(param)
   })
 })

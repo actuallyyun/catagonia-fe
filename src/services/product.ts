@@ -81,6 +81,13 @@ const productApi = createApi({
       query: () => ({ url: '/categories', method: 'GET' }),
       transformResponse: (response: Category[], meta, arg) => response
     }),
+    getSingleCategory: builder.query<Category, string>({
+      query: (catId) => ({
+        url: `/categories/${catId}`,
+        method: 'GET'
+      }),
+      providesTags: (result, error, arg) => [{ type: 'Category', id: arg }]
+    }),
     getProductsByCategory: builder.query({
       query: ({
         categoryId,
@@ -102,7 +109,7 @@ const productApi = createApi({
         }
         if (arg.sortBy === 'newest') {
           return response.sort(
-            (a, b) => Date.parse(a.creationAt) - Date.parse(b.creationAt)
+            (a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt)
           )
         }
         return response
@@ -114,6 +121,7 @@ const productApi = createApi({
 export const {
   useGetAllProductsQuery,
   useGetSingleProductQuery,
+  useGetSingleCategoryQuery,
   useUpdateProductMutation,
   useDeleteProductMutation,
   useCreateProductMutation,

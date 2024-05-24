@@ -15,7 +15,10 @@ export function PaginationNav({ setQuery }: Props) {
     setPage(page)
     setQuery(
       (prev) =>
-        (prev = setParams(prev, { type: 'offset', value: String(page - 1) }))
+        (prev = setParams(prev, {
+          type: 'startingAfter',
+          value: String(page - 1)
+        }))
     )
   }
 

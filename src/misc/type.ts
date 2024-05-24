@@ -31,7 +31,7 @@ export type Product = {
   price: number
   description: string
   images: ImageReadDto[]
-  creationAt: string
+  createdAt: string
   updatedAt: string
   category: Category
   rating: number
@@ -64,7 +64,6 @@ export interface UserUpdateInput {
   password: string
   avatar: string
 }
-
 
 export type UserRegister = {
   firstName: string
@@ -117,16 +116,15 @@ export type UpdateProductInput = {
   inventory: number
 }
 
-
 export type UpdateProductRequest = UpdateProductInput & { id: string }
 
 export type QueryFilters =
-  | 'title'
-  | 'price_min'
-  | 'price_max'
+  | 'searchKey'
+  | 'sortBy'
+  | 'sortOrder'
   | 'categoryId'
-  | 'offset'
   | 'limit'
+  | 'startingAfter'
 
 export type QueryParam = {
   type: QueryFilters

@@ -16,7 +16,8 @@ export default function SearchProduct({ setQuery }: Props) {
   }
   const debounced = useDebouncedCallback(() => {
     setQuery(
-      (prev) => (prev = setParams(prev, { type: 'title', value: searchInput }))
+      (prev) =>
+        (prev = setParams(prev, { type: 'searchKey', value: searchInput }))
     )
   }, 1000)
 

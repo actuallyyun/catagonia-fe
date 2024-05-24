@@ -25,10 +25,10 @@ describe('getAllProducts endpoint', () => {
     expect(payload).toMatchObject(mockProductsPaged)
   })
   test('with pagination params should return paged result', async () => {
-    const offset: QueryFilters = 'offset'
+    const startingAfter: QueryFilters = 'startingAfter'
     const limit: QueryFilters = 'limit'
     const param = [
-      { type: offset, value: '1' },
+      { type: startingAfter, value: '1' },
       { type: limit, value: '2' }
     ]
     const payload = await store
@@ -37,8 +37,8 @@ describe('getAllProducts endpoint', () => {
     const res = mockProductsPaged.slice(2, 4)
     expect(payload).toMatchObject(res)
   })
-  test('with title param should return filtered products', async () => {
-    const type: QueryFilters = 'title'
+  test('with searchKey param should return filtered products', async () => {
+    const type: QueryFilters = 'searchKey'
     const param = [{ type: type, value: 'juegos' }]
     const payload = await store
       .dispatch(productApi.endpoints.getAllProducts.initiate(param))
@@ -48,13 +48,13 @@ describe('getAllProducts endpoint', () => {
     )
     expect(payload).toMatchObject(res)
   })
-  test('with title and pagination param should return filtered paged result', async () => {
-    const title: QueryFilters = 'title'
-    const offset: QueryFilters = 'offset'
+  test('with searchKey and pagination param should return filtered paged result', async () => {
+    const searchKey: QueryFilters = 'searchKey'
+    const startingAfter: QueryFilters = 'startingAfter'
     const limit: QueryFilters = 'limit'
     const param: QueryParams = [
-      { type: title, value: 'o' },
-      { type: offset, value: '1' },
+      { type: searchKey, value: 'o' },
+      { type: startingAfter, value: '1' },
       { type: limit, value: '2' }
     ]
     const payload = await store

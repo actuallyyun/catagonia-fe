@@ -98,7 +98,7 @@ export const mockProducts: Product[] = [
       name: 'cloth',
       image: 'img'
     },
-    creationAt: '2024',
+    createdAt: '2024',
     updatedAt: '2024'
   },
   {
@@ -118,7 +118,7 @@ export const mockProducts: Product[] = [
       name: 'cloth',
       image: 'img'
     },
-    creationAt: '2024',
+    createdAt: '2024',
     updatedAt: '2024'
   },
   {
@@ -139,7 +139,7 @@ export const mockProducts: Product[] = [
       name: 'cloth',
       image: 'img'
     },
-    creationAt: '2024',
+    createdAt: '2024',
     updatedAt: '2024'
   }
 ]
@@ -156,13 +156,13 @@ export const mockProductsPaged = [
       'https://placeimg.com/640/480/any',
       'https://placeimg.com/640/480/any'
     ],
-    creationAt: '2024-02-29T14:45:15.000Z',
+    createdAt: '2024-02-29T14:45:15.000Z',
     updatedAt: '2024-02-29T14:52:59.000Z',
     category: {
       id: '1',
       name: 'Clothes',
       image: 'https://i.imgur.com/QkIa5tT.jpeg',
-      creationAt: '2024-02-29T03:37:26.000Z',
+      createdAt: '2024-02-29T03:37:26.000Z',
       updatedAt: '2024-02-29T03:37:26.000Z'
     }
   },
@@ -177,13 +177,13 @@ export const mockProductsPaged = [
       'https://placeimg.com/640/480/any',
       'https://placeimg.com/640/480/any'
     ],
-    creationAt: '2024-02-29T14:45:58.000Z',
+    createdAt: '2024-02-29T14:45:58.000Z',
     updatedAt: '2024-02-29T14:45:58.000Z',
     category: {
       id: '1',
       name: 'Clothes',
       image: 'https://i.imgur.com/QkIa5tT.jpeg',
-      creationAt: '2024-02-29T03:37:26.000Z',
+      createdAt: '2024-02-29T03:37:26.000Z',
       updatedAt: '2024-02-29T03:37:26.000Z'
     }
   },
@@ -195,13 +195,13 @@ export const mockProductsPaged = [
     rating: 3,
     description: 'A description',
     images: ['https://placeimg.com/640/480/any'],
-    creationAt: '2024-02-29T14:48:24.000Z',
+    createdAt: '2024-02-29T14:48:24.000Z',
     updatedAt: '2024-02-29T14:48:24.000Z',
     category: {
       id: '1',
       name: 'Clothes',
       image: 'https://i.imgur.com/QkIa5tT.jpeg',
-      creationAt: '2024-02-29T03:37:26.000Z',
+      createdAt: '2024-02-29T03:37:26.000Z',
       updatedAt: '2024-02-29T03:37:26.000Z'
     }
   },
@@ -213,13 +213,13 @@ export const mockProductsPaged = [
     rating: 2,
     description: 'A description',
     images: ['https://placeimg.com/640/480/any'],
-    creationAt: '2024-02-29T14:48:35.000Z',
+    createdAt: '2024-02-29T14:48:35.000Z',
     updatedAt: '2024-02-29T14:48:35.000Z',
     category: {
       id: '1',
       name: 'Clothes',
       image: 'https://i.imgur.com/QkIa5tT.jpeg',
-      creationAt: '2024-02-29T03:37:26.000Z',
+      createdAt: '2024-02-29T03:37:26.000Z',
       updatedAt: '2024-02-29T03:37:26.000Z'
     }
   },
@@ -234,13 +234,13 @@ export const mockProductsPaged = [
       'https://placeimg.com/640/480/any',
       'https://placeimg.com/640/480/any'
     ],
-    creationAt: '2024-02-29T14:48:37.000Z',
+    createdAt: '2024-02-29T14:48:37.000Z',
     updatedAt: '2024-02-29T14:48:37.000Z',
     category: {
       id: 1,
       name: 'Clothes',
       image: 'https://i.imgur.com/QkIa5tT.jpeg',
-      creationAt: '2024-02-29T03:37:26.000Z',
+      createdAt: '2024-02-29T03:37:26.000Z',
       updatedAt: '2024-02-29T03:37:26.000Z'
     }
   }

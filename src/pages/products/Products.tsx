@@ -12,7 +12,7 @@ import ProductReview from '../../components/product/ProductReview'
 export default function Products({ feedback }: { feedback: Feedback }) {
   const [query, setQuery] = useState<QueryParams>([
     {
-      type: 'offset',
+      type: 'startingAfter',
       value: '0'
     },
     {

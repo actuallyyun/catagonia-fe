@@ -1,6 +1,9 @@
 import { useParams } from 'react-router-dom'
 
-import { useGetProductsByCategoryQuery } from '../../services/product'
+import {
+  useGetProductsByCategoryQuery,
+  useGetSingleCategoryQuery
+} from '../../services/product'
 import ProductCard from '../../components/product/ProductCard'
 import SortByPrice from '../../components/category/SortByPrice'
 import { useSelector } from 'react-redux'
@@ -14,6 +17,8 @@ import {
 export default function CategoryPage({ feedback }: { feedback: Feedback }) {
   const { categoryId } = useParams()
   const sortBy = useSelector((state: AppState) => state.category.sortBy)
+
+  const categoryRes = useGetSingleCategoryQuery(String(categoryId))
 
   const { data, error, isLoading } = useGetProductsByCategoryQuery({
     categoryId: String(categoryId),
@@ -30,7 +35,7 @@ export default function CategoryPage({ feedback }: { feedback: Feedback }) {
         <div className='grid gap-4'>
           {
             <div className='grid gap-2'>
-              {data[0].category && <h2>{data[0].category.name}</h2>}
+              <h2>{categoryRes?.data?.name}</h2>
               <p>{data.length} Items</p>
             </div>
           }

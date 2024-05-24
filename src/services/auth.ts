@@ -84,14 +84,12 @@ const authApi = createApi({
     getUserAddresses: builder.query<Address[], void>({
       query: () => ({ url: '/users/addresses' }),
       transformResponse: (response: Address[]) => {
-        console.log({ response })
         return response
       }
     }),
     getUserOrders: builder.query<OrderReadDto[], void>({
       query: () => ({ url: '/users/orders' }),
       transformResponse: (response: OrderReadDto[]) => {
-        console.log({ response })
         return response
       }
     }),
@@ -102,7 +100,6 @@ const authApi = createApi({
         body: credentials
       }),
       transformResponse: (response: Address) => {
-        console.log({ response })
         return response
       }
     }),
@@ -113,7 +110,6 @@ const authApi = createApi({
         body: credentials
       }),
       transformResponse: (response: OrderReadDto) => {
-        console.log({ response })
         return response
       }
     }),
@@ -124,7 +120,6 @@ const authApi = createApi({
         body: credentials
       }),
       transformResponse: (response: ReviewReadDto) => {
-        console.log({ response })
         return response
       }
     }),
@@ -144,7 +139,6 @@ const authApi = createApi({
         method: 'DELETE'
       }),
       transformResponse: (response: boolean) => {
-        console.log({ response })
         return response
       }
     })

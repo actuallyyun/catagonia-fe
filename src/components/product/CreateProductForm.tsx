@@ -79,7 +79,6 @@ export default function CreateProductForm({
       const payload = await creatProduct({ ...data, images: images }).unwrap()
       if (payload) {
         feedback.handleSuccess('Product created successfully.')
-        console.log({ payload })
         setTimeout(() => navigate(`/product/${payload.id}`), 2000)
       } else {
         feedback.handleError('unkown error')

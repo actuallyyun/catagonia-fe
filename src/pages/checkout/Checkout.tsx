@@ -116,9 +116,7 @@ export function AddressCard({
   setOrderAddress,
   setShowOrderButton
 }: AddressCardType) {
-  const handleEdit = () => {
-    console.log('edit address')
-  }
+  const handleEdit = () => {}
   const handleSetAddress = (address: Address) => {
     setOrderAddress(address)
     setShowOrderButton((prev) => (prev = !prev))

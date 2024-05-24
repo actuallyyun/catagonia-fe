@@ -21,7 +21,6 @@ export default function ProductReview({
   product,
   feedback
 }: ProductReviewProp) {
-  console.log({ reviews })
   const [showReviewForm, setShowReviewForm] = useState(false)
   const currentUser = useSelector(selectCurrentUser)
 

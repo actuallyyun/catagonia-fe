@@ -1,7 +1,7 @@
 ## Introduction
-This project is a frontend e-commerce application using the [fake store api](https://fakeapi.platzi.com/). 
+This project is the frontend of a full stack e-commerce web application. You could find the backend api [Catagonia E-commerce api here](https://catagonia.azurewebsites.net/index.html). 
 
-You can find it live here: **[Catagonia](https://fs17-frontend-project-mauve.vercel.app/)**
+You can find play with the frontend live here: **[Catagonia](https://fs17-frontend-project-mauve.vercel.app/)**
 
 ![Catagonia](./public/catagonia.png)
 
@@ -144,6 +144,7 @@ classDiagram
 - Auth `./auth`
 - Profile `./account` **Private route**. Only logged in users can access this page.
 - Cart `./cart`
+- Checkout `./checkout`
 - Single product page `./product/:id`
 - Category page `./shop/id`
 - All products page `./product`

@@ -72,4 +72,4 @@ export const setParams = (
 }
 
 
-export const API_URL = 'http://localhost:5233/api/v1/'
+export const API_URL = 'https://catagonia.azurewebsites.net/api/v1'

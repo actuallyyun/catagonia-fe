@@ -72,7 +72,7 @@ export const setParams = (
 }
 
 
-export const API_URL = 'http://catagonia.azurewebsites.net/api/v1'
+export const API_URL = 'https://catagonia.azurewebsites.net/api/v1'
 
 export const parseOrderStatus = (status: number) => {
   if (status === 0) {

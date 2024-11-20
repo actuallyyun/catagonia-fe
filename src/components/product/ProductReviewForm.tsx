@@ -4,12 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'flowbite-react'
 
-import {
-  CreateProductInput,
-  Feedback,
-  ReviewCreateDto,
-  ReviewUserInput
-} from '../../misc/type'
+import { Feedback, ReviewCreateDto, ReviewUserInput } from '../../misc/type'
 import { useCreateReviewMutation } from '../../services/auth'
 
 const createReviewSchema = Yup.object().shape({

@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { Product, ReviewReadDto } from '../../misc/type'
 import { Button } from 'flowbite-react'
@@ -43,7 +43,12 @@ export default function ProductReview({
           </Button>
         </div>
         <div className={showReviewForm ? 'grid' : 'hidden'}>
-          <CreateReviewForm feedback={feedback} productId={product.id} />
+          {currentUser && (
+            <CreateReviewForm feedback={feedback} productId={product.id} />
+          )}
+          {!currentUser && (
+            <h3>Please log in to your account to leave a review.</h3>
+          )}
         </div>
         {reviews.length > 0 && (
           <div className='grid gap-6'>

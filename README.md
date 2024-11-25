@@ -1,7 +1,7 @@
 ## Introduction
-This project is the frontend of a full stack e-commerce web application. You could find the backend api [Catagonia E-commerce api here](https://catagonia.azurewebsites.net/index.html). 
+This project is the frontend of a full stack e-commerce web application. You could find the backend api [Catagonia E-commerce api here](https://catt-api-gjekfueqfzbrc3er.northeurope-01.azurewebsites.net/index.html). 
 
-You can find play with the frontend live here: **[Catagonia](https://fs17-frontend-project-mauve.vercel.app/)**
+You can find play with the frontend live here: **[Catagonia](https://catagonia-fe-hdsd.vercel.app/)**
 
 ![Catagonia](./public/catagonia.png)
 
